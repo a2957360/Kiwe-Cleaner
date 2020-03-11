@@ -42,7 +42,7 @@ class PhoneNumberSignIn extends Component {
 
     onLogin = (values) => {
         this.setState({ loadingSpinner: true }, () => {
-            console.log(1111111111111111111, 'client')
+            console.log(222222222222222, 'cleaner')
             this.props.checkVerificationCode(values);
         })
     }
