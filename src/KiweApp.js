@@ -1,0 +1,434 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { StyleSheet, Text } from 'react-native';
+
+import AsyncStorage from '@react-native-community/async-storage';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+
+import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
+
+import LandingScreen from './screens/signIn/landingScreen';
+import StartScreen from './screens/signIn/startScreen';
+import PhoneNumberSignIn from './screens/signIn/phoneNumberSignIn';
+
+import CreateTask from './screens/createTask/createTask';
+import CreateTaskService from './screens/createTask/createTaskService';
+import CreateNewTask from './screens/createTask/createNewTask';
+import NewTaskCart from './screens/createTask/newTaskCart';
+import NewTaskCheckOut from './screens/createTask/newTaskCheckOut';
+import NewTaskOrderInfo from './screens/createTask/newTaskOrderInfo';
+
+import UserCenter from './screens/userCenter/userCenter';
+import UserPhoneNumber from './screens/userCenter/userPhoneNumber';
+import UserAddress from './screens/userCenter/userAddress';
+import UserAddressForm from './screens/userCenter/userAddressForm';
+import MyWallet from './screens/userCenter/myWallet';
+
+import MyTaskIncompleted from './screens/myTask/myTaskIncompleted';
+import MyTaskCompleted from './screens/myTask/myTaskCompleted';
+import MyTaskDetail from './screens/myTask/myTaskDetail';
+import CustomerServiceForm from './screens/myTask/customerServiceForm';
+import MyTaskComment from './screens/myTask/myTaskComment';
+
+import ServicePolicy from './screens/servicePolicy/servicePolicy';
+
+const Stack = createStackNavigator();
+const MaterialTopTabs = createMaterialTopTabNavigator();
+const MaterialBottomTabs = createMaterialBottomTabNavigator();
+
+class KiweApp extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            userLogin: null
+        };
+    }
+
+    componentDidMount = () => {
+
+    };
+
+    componentDidUpdate = (prevProps) => {
+        if ((prevProps.userSignInMessage !== this.props.userSignInMessage) && (this.props.userSignInMessage === 'success')) {
+            this.setState({ userLogin: 1 })
+        }
+
+        if ((prevProps.userSignOutMessage !== this.props.userSignOutMessage) && (this.props.userSignOutMessage === 'success')) {
+            this.setState({ userLogin: 0 })
+        }
+    };
+
+    getBottomTitle = (route) => {
+        const routeName = route.state
+            ?
+            route.state.routes[route.state.index].name
+            :
+            route.params?.screen || 'CreateTask';
+
+        switch (routeName) {
+            case 'CreateTask':
+                return '发布任务';
+            case 'UserCenter':
+                return '个人中心';
+            case 'MyTask':
+                return '我的任务';
+        }
+    }
+
+    myTaskTopTabs = () => {
+        return (
+            <MaterialTopTabs.Navigator
+                tabBarOptions={{
+                    labelStyle: { fontSize: 15, fontWeight: 'bold' },
+                    indicatorStyle: {
+                        color: '#65A3FF',
+                        width: 77,
+                        height: 3,
+                        marginHorizontal: 55
+                    }
+                }}
+            >
+                <MaterialTopTabs.Screen
+                    name='MyTaskIncompleted'
+                    component={MyTaskIncompleted}
+                    options={{
+                        title: '我发布的',
+                    }}
+                />
+                <MaterialTopTabs.Screen
+                    name='MyTaskCompleted'
+                    component={MyTaskCompleted}
+                    options={{
+                        title: '已完成的'
+                    }}
+                />
+            </MaterialTopTabs.Navigator>
+        )
+    }
+
+    homeBottomTabs = ({ navigation, route }) => {
+        navigation.setOptions({ headerTitle: this.getBottomTitle(route) });
+
+        return (
+            <MaterialBottomTabs.Navigator
+                activeColor='#65A3FF'
+                inactiveColor='#3e2465'
+                barStyle={{
+                    backgroundColor: 'white',
+                    height: 85,
+                    paddingTop: 8
+                }}
+            >
+                <MaterialBottomTabs.Screen
+                    name='CreateTask'
+                    component={CreateTask}
+                    options={{
+                        tabBarLabel: <Text style={styles.bottomTabText}>发布任务</Text>,
+                        tabBarIcon: ({ color }) => (
+                            <MaterialIcons
+                                name='edit'
+                                color={color}
+                                size={20}
+                                style={styles.bottomTabIcon}
+                            />
+                        ),
+                    }}
+                />
+                <MaterialBottomTabs.Screen
+                    name='MyTask'
+                    component={this.myTaskTopTabs}
+                    options={{
+                        tabBarLabel: <Text style={styles.bottomTabText}>我的任务</Text>,
+                        tabBarIcon: ({ color }) => (
+                            <FontAwesome
+                                name='tasks'
+                                color={color}
+                                size={20}
+                                style={styles.bottomTabIcon}
+                            />
+                        ),
+                    }}
+                />
+                <MaterialBottomTabs.Screen
+                    name='UserCenter'
+                    component={UserCenter}
+                    options={{
+                        tabBarLabel: <Text style={styles.bottomTabText}>个人中心</Text>,
+                        tabBarIcon: ({ color }) => (
+                            <FontAwesome
+                                name='user'
+                                color={color}
+                                size={20}
+                                style={styles.bottomTabIcon}
+                            />
+                        ),
+                    }}
+                />
+            </MaterialBottomTabs.Navigator>
+        )
+    }
+
+    homeStack = () => {
+        return (
+            <Stack.Navigator>
+                <Stack.Screen
+                    name='Home'
+                    component={this.homeBottomTabs}
+                    options={{
+                        headerStyle: styles.stackHeader,
+                        headerTitleStyle: styles.stackHeaderTitle,
+                    }}
+                />
+                <Stack.Screen
+                    name='CreateTaskService'
+                    component={CreateTaskService}
+                    options={({ route }) =>
+                        ({
+                            title: route.params.typeName,
+                            headerBackTitleVisible: false,
+                            headerStyle: styles.stackHeader,
+                            headerTitleStyle: styles.stackHeaderTitle,
+                            headerTintColor: 'black',
+                        })}
+                />
+                <Stack.Screen
+                    name='CreateNewTask'
+                    component={CreateNewTask}
+                    options={{
+                        title: '发布任务',
+                        headerBackTitleVisible: false,
+                        headerStyle: styles.stackHeader,
+                        headerTitleStyle: styles.stackHeaderTitle,
+                        headerTintColor: 'black',
+                    }}
+                />
+                <Stack.Screen
+                    name='NewTaskCart'
+                    component={NewTaskCart}
+                    options={{
+                        title: '清单',
+                        headerBackTitleVisible: false,
+                        headerStyle: styles.stackHeader,
+                        headerTitleStyle: styles.stackHeaderTitle,
+                        headerTintColor: 'black',
+                    }}
+                />
+                <Stack.Screen
+                    name='NewTaskCheckOut'
+                    component={NewTaskCheckOut}
+                    options={{
+                        title: '结算',
+                        headerBackTitleVisible: false,
+                        headerStyle: styles.stackHeader,
+                        headerTitleStyle: styles.stackHeaderTitle,
+                        headerTintColor: 'black',
+                    }}
+                />
+                <Stack.Screen
+                    name='NewTaskOrderInfo'
+                    component={NewTaskOrderInfo}
+                    options={{
+                        title: '订单信息',
+                        headerBackTitleVisible: false,
+                        headerStyle: styles.stackHeader,
+                        headerTitleStyle: styles.stackHeaderTitle,
+                        headerTintColor: 'black',
+                    }}
+                />
+                <Stack.Screen
+                    name='MyWallet'
+                    component={MyWallet}
+                    options={{
+                        title: '我的钱包',
+                        headerBackTitleVisible: false,
+                        headerStyle: styles.stackHeader,
+                        headerTitleStyle: styles.stackHeaderTitle,
+                        headerTintColor: 'black',
+                    }}
+                />
+                <Stack.Screen
+                    name='UserPhoneNumber'
+                    component={UserPhoneNumber}
+                    options={{
+                        title: '我的手机号',
+                        headerBackTitleVisible: false,
+                        headerStyle: styles.stackHeader,
+                        headerTitleStyle: styles.stackHeaderTitle,
+                        headerTintColor: 'black',
+                    }}
+                />
+                <Stack.Screen
+                    name='UserAddress'
+                    component={UserAddress}
+                    options={{
+                        title: '我的地址',
+                        headerBackTitleVisible: false,
+                        headerStyle: styles.stackHeader,
+                        headerTitleStyle: styles.stackHeaderTitle,
+                        headerTintColor: 'black',
+                    }}
+                />
+                <Stack.Screen
+                    name='UserAddressForm'
+                    component={UserAddressForm}
+                    options={{
+                        title: '添加地址',
+                        headerBackTitleVisible: false,
+                        headerStyle: styles.stackHeader,
+                        headerTitleStyle: styles.stackHeaderTitle,
+                        headerTintColor: 'black',
+                    }}
+                />
+                <Stack.Screen
+                    name='MyTaskDetail'
+                    component={MyTaskDetail}
+                    options={{
+                        title: '加载中...',
+                        headerBackTitleVisible: false,
+                        headerStyle: styles.stackHeader,
+                        headerTitleStyle: styles.stackHeaderTitle,
+                        headerTintColor: 'black',
+                        headerTransparent: true
+                    }}
+                />
+                <Stack.Screen
+                    name='CustomerServiceForm'
+                    component={CustomerServiceForm}
+                    options={{
+                        title: '联系客服',
+                        headerBackTitleVisible: false,
+                        headerStyle: styles.stackHeader,
+                        headerTitleStyle: styles.stackHeaderTitle,
+                        headerTintColor: 'black',
+                    }}
+                />
+                <Stack.Screen
+                    name='MyTaskComment'
+                    component={MyTaskComment}
+                    options={{
+                        title: '评论',
+                        headerBackTitleVisible: false,
+                        headerStyle: styles.stackHeader,
+                        headerTitleStyle: styles.stackHeaderTitle,
+                        headerTintColor: 'black',
+                    }}
+                />
+                <Stack.Screen
+                    name='ServicePolicy'
+                    component={ServicePolicy}
+                    options={{
+                        title: '服务条款和隐私政策',
+                        headerBackTitleVisible: false,
+                        headerStyle: styles.stackHeader,
+                        headerTitleStyle: styles.stackHeaderTitle,
+                        headerTintColor: 'black',
+                    }}
+                />
+            </Stack.Navigator>
+        )
+    }
+
+    signInStack = () => {
+        return (
+            <Stack.Navigator>
+                <Stack.Screen
+                    name='LandingScreen'
+                    component={LandingScreen}
+                    options={{
+                        headerShown: false
+                    }}
+                />
+                <Stack.Screen
+                    name='StartScreen'
+                    component={StartScreen}
+                    options={{
+                        headerShown: false
+                    }}
+                />
+                <Stack.Screen
+                    name='PhoneNumberSignIn'
+                    component={PhoneNumberSignIn}
+                    options={{
+                        title: ' ',
+                        headerBackTitleVisible: false,
+                        headerStyle: styles.stackHeader,
+                        headerTitleStyle: styles.stackHeaderTitle,
+                        headerTintColor: 'black',
+                    }}
+                />
+                <Stack.Screen
+                    name='ServicePolicy'
+                    component={ServicePolicy}
+                    options={{
+                        title: '服务条款和隐私政策',
+                        headerBackTitleVisible: false,
+                        headerStyle: styles.stackHeader,
+                        headerTitleStyle: styles.stackHeaderTitle,
+                        headerTintColor: 'black',
+                    }}
+                />
+            </Stack.Navigator>
+        )
+    }
+
+    render() {
+        console.disableYellowBox = true;
+
+        if (this.state.userLogin === 1) {
+            return (
+                <NavigationContainer>
+                    {this.homeStack()}
+                </NavigationContainer>
+            );
+        } else {
+            return (
+                <NavigationContainer>
+                    {this.signInStack()}
+                </NavigationContainer>
+            );
+        }
+    }
+}
+
+function mapStateToProps({ signInData }) {
+    const { userSignInMessage, userSignOutMessage, userSignInData } = signInData;
+    return { userSignInMessage, userSignOutMessage, userSignInData };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(KiweApp);
+
+const styles = StyleSheet.create({
+    stackHeader: {
+        backgroundColor: '#FFFFFF',
+        shadowColor: 'transparent',
+        height: 85,
+    },
+    stackHeaderTitle: {
+        color: '#1C1D27',
+        fontSize: 18,
+    },
+    stackHeaderTint: {
+        color: '#fff',
+    },
+    stackHeaderBackTitle: {
+        color: '#fff',
+    },
+    bottomTabText: {
+        fontSize: 10
+    },
+    bottomTabIcon: {
+
+    }
+});
