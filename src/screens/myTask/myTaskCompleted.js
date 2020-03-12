@@ -28,7 +28,7 @@ class MyTaskCompleted extends Component {
     getCompletedTask = () => {
         //Get Completed Task Data
         this.props.getCompletedTask({
-            'userId': this.props.userSignInData.userId,
+            'cleanerId': this.props.userSignInData.userId,
             'orderState': '(7,8,9,10)'
         });
     }

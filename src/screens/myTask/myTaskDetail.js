@@ -35,10 +35,11 @@ class MyTaskDetail extends Component {
         }
     };
 
-    changeTaskStatus = (id, state) => {
+    changeTaskStatus = (orderId, state, cleanerId) => {
         let changeTaskStateData = {};
-        changeTaskStateData.orderId = id;
+        changeTaskStateData.orderId = orderId;
         changeTaskStateData.orderState = state;
+        changeTaskStateData.cleanerId = cleanerId;
 
         this.setState({
             taskConfrimOverlayVisible: false,
@@ -54,6 +55,15 @@ class MyTaskDetail extends Component {
             () => this.props.navigation.navigate('CustomerServiceForm'))
     }
 
+    navigateToServicePolicy = () => {
+        this.setState({ taskTakenOverlayVisible: false },
+            () => this.props.navigation.navigate('ServicePolicy'))
+    }
+
+    navigateToCheckInForm = () => {
+        this.props.navigation.navigate('CleanerCheckInForm');
+    }
+
     render() {
         let taskDetail;
         let backgroundImageSection;
@@ -62,6 +72,8 @@ class MyTaskDetail extends Component {
 
         let confirmOverlayContentText = ['打扫干净', '财务损失', '物品损害'];
 
+        let { userId } = this.props.userSignInData;
+        
         if (this.props.loading === true || this.props.taskDetailData === undefined) {
             return <PageLoading />
         } else {
@@ -155,7 +167,7 @@ class MyTaskDetail extends Component {
 
                             <Text style={styles.cancelOverlayTitleStyle}>确认取消接单?</Text>
 
-                            <TouchableOpacity onPress={() => this.changeTaskStatus(taskDetail.orderId, '0')}>
+                            <TouchableOpacity onPress={() => this.changeTaskStatus(taskDetail.orderId, '0', '')}>
                                 <View style={globalStyles.redMediumButton}>
                                     <Text style={globalStyles.blackButtonText}>确认</Text>
                                 </View>
@@ -260,20 +272,26 @@ class MyTaskDetail extends Component {
                                 <View>
                                     <Text style={styles.blackText}>已阅读并同意</Text>
                                 </View>
-                                <TouchableOpacity onPress={() => this.props.navigation.navigate('ServicePolicy')}>
+                                <TouchableOpacity onPress={() => this.navigateToServicePolicy()}>
                                     <View>
                                         <Text style={styles.blueText}>服务条款和隐私政策</Text>
                                     </View>
                                 </TouchableOpacity>
                             </View>
 
-                            <TouchableOpacity onPress={() => this.changeTaskStatus(taskDetail.orderId, '1')}>
-                                <View style={globalStyles.yellowMediumButton}>
-                                    <Text style={globalStyles.blackButtonText}>确认</Text>
+                            <TouchableOpacity
+                                disabled={!this.state.policyChecked}
+                                onPress={() => this.changeTaskStatus(taskDetail.orderId, '1', userId)}
+                            >
+                                <View style={(this.state.policyChecked === true) ? globalStyles.yellowMediumButton : globalStyles.lightGreyMediumButton}>
+                                    <Text style={(this.state.policyChecked === true) ? globalStyles.blackButtonText : globalStyles.whiteButtonText}>确认</Text>
                                 </View>
                             </TouchableOpacity>
 
-                            <TouchableOpacity onPress={() => this.setState({ taskTakenOverlayVisible: false })}>
+                            <TouchableOpacity 
+                            disabled={!this.state.policyChecked}
+                            onPress={() => this.setState({ taskTakenOverlayVisible: false })}
+                            >
                                 <View style={globalStyles.whiteMediumButton}>
                                     <Text style={globalStyles.blackButtonText}>回到订单</Text>
                                 </View>
@@ -330,12 +348,21 @@ class MyTaskDetail extends Component {
                             {backgroundImageSection}
                             {taskDetailInfoSection}
 
-                            <View style={globalStyles.bottomSingleButtonContainer}>
+                            <View style={globalStyles.bottomDoubleButtonContainer}>
+
                                 <TouchableOpacity
                                     onPress={() => this.setState({ taskCancelOverlayVisible: true })}
                                 >
-                                    <View style={globalStyles.darkGreyLargeButton}>
-                                        <Text style={globalStyles.whiteButtonText}>取消任务</Text>
+                                    <View style={globalStyles.whiteMediumButton}>
+                                        <Text style={globalStyles.blackButtonText}>取消此单</Text>
+                                    </View>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    onPress={() => this.navigateToCheckInForm()}
+                                >
+                                    <View style={globalStyles.yellowLargeButton}>
+                                        <Text style={globalStyles.blackButtonText}>开始任务</Text>
                                     </View>
                                 </TouchableOpacity>
                             </View>
@@ -460,9 +487,10 @@ class MyTaskDetail extends Component {
     }
 }
 
-function mapStateToProps({ taskData }) {
+function mapStateToProps({ signInData, taskData }) {
+    const { userSignInData } = signInData;
     const { loading, updating, taskDetailData } = taskData;
-    return { loading, updating, taskDetailData };
+    return { loading, updating, userSignInData, taskDetailData };
 }
 
 function mapDispatchToProps(dispatch) {

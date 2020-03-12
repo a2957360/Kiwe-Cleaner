@@ -34,7 +34,7 @@ class MyTaskIncompleted extends Component {
     getIncompletedTask = () => {
         //Get Incompleted Task Data
         this.props.getIncompletedTask({
-            'userId': this.props.userSignInData.userId,
+            'cleanerId': this.props.userSignInData.userId,
             'orderState': '(0,1,2,3,4,5,6)'
         });
     }
@@ -114,6 +114,7 @@ class MyTaskIncompleted extends Component {
     }
 
     render() {
+        console.log(this.props.userSignInData)
         if (this.props.incompletedTaskData === undefined) {
             return <PageLoading />
         } else {

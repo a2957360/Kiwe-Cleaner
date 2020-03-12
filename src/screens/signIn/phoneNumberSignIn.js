@@ -37,7 +37,7 @@ class PhoneNumberSignIn extends Component {
     };
 
     getVerificationCode = (userPhone) => {
-        this.props.getVerificationCode({ 
+        this.props.getVerificationCode({
             'userPhone': userPhone,
             'userRole': '1',
         });
@@ -155,10 +155,11 @@ class PhoneNumberSignIn extends Component {
 
                             <View style={styles.bottomButtonContainer}>
                                 <TouchableOpacity
+                                    disabled={!this.state.policyChecked}
                                     onPress={props.handleSubmit}
                                 >
-                                    <View style={globalStyles.blueLargeButton}>
-                                        <Text style={globalStyles.whiteButtonText}>登录</Text>
+                                    <View style={(this.state.policyChecked === true) ? globalStyles.blueLargeButton : globalStyles.lightGreyLargeButton}>
+                                        <Text style={(this.state.policyChecked === true) ? globalStyles.whiteButtonText : globalStyles.whiteButtonText}>登录</Text>
                                     </View>
                                 </TouchableOpacity>
                             </View>

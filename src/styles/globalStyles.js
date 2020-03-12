@@ -114,6 +114,14 @@ export const globalStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    lightGreyMediumButton: {
+        backgroundColor: '#A0A0A0',
+        borderRadius: 25,
+        width: 235,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     //按钮文字
     blackButtonText: {
         color: '#1C1D27',

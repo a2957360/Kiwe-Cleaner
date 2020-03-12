@@ -19,6 +19,7 @@ import TaskPool from './screens/taskPool/taskPool';
 import MyTaskIncompleted from './screens/myTask/myTaskIncompleted';
 import MyTaskCompleted from './screens/myTask/myTaskCompleted';
 import MyTaskDetail from './screens/myTask/myTaskDetail';
+import CleanerCheckInForm from './screens/myTask/cleanerCheckInForm';
 import CustomerServiceForm from './screens/myTask/customerServiceForm';
 import MyTaskComment from './screens/myTask/myTaskComment';
 
@@ -245,6 +246,17 @@ class KiweApp extends Component {
                     component={CustomerServiceForm}
                     options={{
                         title: '联系客服',
+                        headerBackTitleVisible: false,
+                        headerStyle: styles.stackHeader,
+                        headerTitleStyle: styles.stackHeaderTitle,
+                        headerTintColor: 'black',
+                    }}
+                />
+                <Stack.Screen
+                    name='CleanerCheckInForm'
+                    component={CleanerCheckInForm}
+                    options={{
+                        title: '确认单位',
                         headerBackTitleVisible: false,
                         headerStyle: styles.stackHeader,
                         headerTitleStyle: styles.stackHeaderTitle,
