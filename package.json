@@ -18,12 +18,12 @@
     "@react-navigation/stack": "^5.0.8",
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
-    "expo": "^35.0.0",
+    "expo": "^36.0.2",
     "expo-image-picker": "~7.0.0",
     "formik": "^2.1.4",
     "metro-core": "^0.58.0",
     "native-base": "^2.13.8",
-    "react": "16.8.3",
+    "react": "^16.8.3",
     "react-dom": "16.8.3",
     "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
     "react-native-cli": "^2.0.1",
@@ -49,10 +49,6 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "yup": "^0.28.1"
-  },
-  "devDependencies": {
-    "babel-preset-expo": "^7.0.0",
-    "@babel/core": "^7.0.0"
   },
   "private": true
 }
