@@ -114,7 +114,6 @@ class MyTaskIncompleted extends Component {
     }
 
     render() {
-        console.log(this.props.userSignInData)
         if (this.props.incompletedTaskData === undefined) {
             return <PageLoading />
         } else {

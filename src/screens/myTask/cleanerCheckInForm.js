@@ -60,6 +60,13 @@ class CustomerServiceForm extends Component {
                                     <View style={styles.yellowIndicator} />
                                     <Text style={styles.screenTitle}>请填写内容及上传凭证</Text>
                                 </View>
+
+                                <View style={styles.TitleTextContainer}>
+                                    <Text style={styles.TitleText}>请和客人一起巡视整体单位，</Text>
+                                    <Text style={styles.TitleText}>记录单位原始情况，</Text>
+                                    <Text style={styles.TitleText}>如有损坏，请详细记录</Text>
+                                </View>
+
                                 <TextInput
                                     style={styles.textMultiInput}
                                     placeholder='内容'
@@ -137,7 +144,7 @@ const styles = StyleSheet.create({
     },
     screenTitleContainer: {
         flexDirection: 'row',
-        paddingVertical: 25
+        paddingTop: 25
     },
     yellowIndicator: {
         height: 20,
@@ -149,5 +156,18 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '500',
         color: '#292929'
+    },
+    TitleTextContainer: {
+        flexDirection: 'column',
+        paddingHorizontal: 10,
+                paddingTop: 10,
+        paddingBottom: 15,
+        borderBottomWidth: 1,
+        borderColor: '#EAEAEA',
+        marginHorizontal: 15,
+    },
+    TitleText: {
+        fontSize: 14,
+        color: '#6C6C6C',
     },
 });

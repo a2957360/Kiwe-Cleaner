@@ -40,7 +40,7 @@ export const getIncompletedTaskData = (data) => {
     return dispatch => {
         dispatch({ type: FETCH_DATA_START });
         axios
-            .get(MainDomain + 'orderModule.php' + `?userId=${data.userId}&orderState=${data.orderState}`)
+            .get(MainDomain + 'orderModule.php' + `?cleanerId=${data.cleanerId}&orderState=${data.orderState}`)
             .then(res => {
                 dispatch({ type: GET_USER_INCOMPLETED_TASK_SUCCESS, payload: res.data });
             })
