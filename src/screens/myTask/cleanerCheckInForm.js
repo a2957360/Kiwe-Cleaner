@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     TitleTextContainer: {
         flexDirection: 'column',
         paddingHorizontal: 10,
-                paddingTop: 10,
+        paddingTop: 10,
         paddingBottom: 15,
         borderBottomWidth: 1,
         borderColor: '#EAEAEA',
