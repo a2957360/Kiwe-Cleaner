@@ -27,6 +27,8 @@ class LandingScreen extends Component {
                     <Text style={styles.landingSubtitle}>Book Cleaner at the Comfort of you home.</Text>
                 </View>
 
+                <Text style={styles.landingSubtitle}>保洁端</Text>
+
                 <View style={styles.landingImageContainer}>
                     <Image style={styles.landingImage} source={require('../../../assets/landingScreen/landingImage.png')} />
                 </View>

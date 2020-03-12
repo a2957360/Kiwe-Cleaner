@@ -2,6 +2,7 @@ import {
     FETCH_DATA_START,
     UPDATE_DATA_START,
     GET_TASK_TYPE_LIST_SUCCESS,
+    GET_TASK_POOL_SUCCESS,
     GET_USER_INCOMPLETED_TASK_SUCCESS,
     GET_USER_COMPLETED_TASK_SUCCESS,
     GET_TASK_DETAIL_SUCCESS,
@@ -37,6 +38,14 @@ export default (state = INIT_STATE, action) => {
                 ...state,
                 loading: false,
                 taskTypeList: action.payload,
+            };
+        }
+
+        case GET_TASK_POOL_SUCCESS: {
+            return {
+                ...state,
+                loading: false,
+                taskPoolList: action.payload,
             };
         }
         case GET_USER_INCOMPLETED_TASK_SUCCESS: {

@@ -5,7 +5,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 
 
 import { Overlay } from 'react-native-elements';
 
-import { Rating, ListItem, CheckBox } from 'react-native-elements';
+import { CheckBox } from 'react-native-elements';
 
 import KeyboardListener from 'react-native-keyboard-listener';
 
@@ -42,7 +42,6 @@ class PhoneNumberSignIn extends Component {
 
     onLogin = (values) => {
         this.setState({ loadingSpinner: true }, () => {
-            console.log(222222222222222, 'cleaner')
             this.props.checkVerificationCode(values);
         })
     }

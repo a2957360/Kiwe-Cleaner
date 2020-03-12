@@ -2,6 +2,7 @@ import {
     FETCH_DATA_START,
     UPDATE_DATA_START,
     GET_TASK_TYPE_LIST_SUCCESS,
+    GET_TASK_POOL_SUCCESS,
     GET_USER_INCOMPLETED_TASK_SUCCESS,
     GET_USER_COMPLETED_TASK_SUCCESS,
     GET_TASK_DETAIL_SUCCESS,
@@ -11,7 +12,7 @@ import {
 import { MainDomain } from '../variables/appVariables';
 import axios from 'axios';
 
-//获取未完成任务列表
+//获取任务类型列表
 export const getTaskTypeListData = () => {
     return dispatch => {
         dispatch({ type: FETCH_DATA_START });
@@ -23,6 +24,17 @@ export const getTaskTypeListData = () => {
     };
 };
 
+//获取所有任务列表
+export const getTaskPoolData = (data) => {
+    return dispatch => {
+        dispatch({ type: FETCH_DATA_START });
+        axios
+            .get(MainDomain + 'orderModule.php' + `?orderState=${data.orderState}`)
+            .then(res => {
+                dispatch({ type: GET_TASK_POOL_SUCCESS, payload: res.data });
+            })
+    };
+};
 //获取未完成任务列表
 export const getIncompletedTaskData = (data) => {
     return dispatch => {

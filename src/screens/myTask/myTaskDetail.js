@@ -8,7 +8,7 @@ import { SimpleLineIcons, Ionicons } from '@expo/vector-icons';
 
 import { getTaskDetailData, changeTaskStateData } from '../../actions/task';
 
-import { Overlay } from 'react-native-elements';
+import { Overlay, CheckBox } from 'react-native-elements';
 
 import { AntDesign } from '@expo/vector-icons';
 
@@ -20,6 +20,7 @@ class MyTaskDetail extends Component {
         super(props);
         this.state = {
             taskCancelOverlayVisible: false,
+            taskTakenOverlayVisible: false,
             taskConfrimOverlayVisible: false
         };
     }
@@ -39,7 +40,11 @@ class MyTaskDetail extends Component {
         changeTaskStateData.orderId = id;
         changeTaskStateData.orderState = state;
 
-        this.setState({ taskCancelOverlayVisible: false }, () => {
+        this.setState({
+            taskConfrimOverlayVisible: false,
+            taskCancelOverlayVisible: false,
+            taskTakenOverlayVisible: false
+        }, () => {
             this.props.changeTaskStatus(changeTaskStateData);
         })
     }
@@ -148,9 +153,9 @@ class MyTaskDetail extends Component {
                                 />
                             </View>
 
-                            <Text style={styles.cancelOverlayTitleStyle}>确认取消任务?</Text>
+                            <Text style={styles.cancelOverlayTitleStyle}>确认取消接单?</Text>
 
-                            <TouchableOpacity onPress={() => this.changeTaskStatus(taskDetail.orderId, '8')}>
+                            <TouchableOpacity onPress={() => this.changeTaskStatus(taskDetail.orderId, '0')}>
                                 <View style={globalStyles.redMediumButton}>
                                     <Text style={globalStyles.blackButtonText}>确认</Text>
                                 </View>
@@ -213,6 +218,70 @@ class MyTaskDetail extends Component {
                     </Overlay>
                 )
 
+            taskTakenConfirmOverlay =
+                (
+                    <Overlay
+                        width={300}
+                        height={450}
+                        overlayStyle={{
+                            borderRadius: 25,
+                        }}
+                        isVisible={this.state.taskTakenOverlayVisible}
+                        onBackdropPress={() => this.setState({ taskTakenOverlayVisible: false })}
+                    >
+                        <View style={styles.taskConfirmOverlayContainer}>
+                            <View>
+                                <AntDesign
+                                    name='checkcircleo'
+                                    color='#FFCC34'
+                                    size={120}
+                                    style={{ marginTop: 45, marginBottom: 26 }}
+                                />
+                            </View>
+
+                            <Text style={styles.confirmOverlayTitleStyle}>确认接单？</Text>
+
+                            <View style={styles.policyCheckContainer}>
+                                <CheckBox
+                                    containerStyle={{
+                                        backgroundColor: '#ffffff',
+                                        borderWidth: 0,
+                                        paddingTop: 2,
+                                        paddingBottom: 0,
+                                        paddingHorizontal: 0,
+                                        marginHorizontal: 0,
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                    }}
+                                    checked={this.state.policyChecked}
+                                    onPress={() => this.setState({ policyChecked: !this.state.policyChecked })}
+                                    checkedColor='#65A3FF'
+                                />
+                                <View>
+                                    <Text style={styles.blackText}>已阅读并同意</Text>
+                                </View>
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('ServicePolicy')}>
+                                    <View>
+                                        <Text style={styles.blueText}>服务条款和隐私政策</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+
+                            <TouchableOpacity onPress={() => this.changeTaskStatus(taskDetail.orderId, '1')}>
+                                <View style={globalStyles.yellowMediumButton}>
+                                    <Text style={globalStyles.blackButtonText}>确认</Text>
+                                </View>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity onPress={() => this.setState({ taskTakenOverlayVisible: false })}>
+                                <View style={globalStyles.whiteMediumButton}>
+                                    <Text style={globalStyles.blackButtonText}>回到订单</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    </Overlay>
+                )
+
             switch (taskDetail.orderState) {
                 //待接单
                 case '0':
@@ -223,15 +292,15 @@ class MyTaskDetail extends Component {
 
                             <View style={globalStyles.bottomSingleButtonContainer}>
                                 <TouchableOpacity
-                                    onPress={() => this.setState({ taskCancelOverlayVisible: true })}
+                                    onPress={() => this.setState({ taskTakenOverlayVisible: true })}
                                 >
-                                    <View style={globalStyles.darkGreyLargeButton}>
-                                        <Text style={globalStyles.whiteButtonText}>取消任务</Text>
+                                    <View style={globalStyles.yellowLargeButton}>
+                                        <Text style={globalStyles.blackButtonText}>接单</Text>
                                     </View>
                                 </TouchableOpacity>
                             </View>
 
-                            {taskCancelOverlay}
+                            {taskTakenConfirmOverlay}
                         </View>
                     )
                 //已接单
@@ -241,21 +310,12 @@ class MyTaskDetail extends Component {
                             {backgroundImageSection}
                             {taskDetailInfoSection}
 
-                            <View style={globalStyles.bottomDoubleButtonContainer}>
-
+                            <View style={globalStyles.bottomSingleButtonContainer}>
                                 <TouchableOpacity
                                     onPress={() => this.setState({ taskCancelOverlayVisible: true })}
                                 >
-                                    <View style={globalStyles.whiteMediumButton}>
-                                        <Text style={globalStyles.blackButtonText}>取消任务</Text>
-                                    </View>
-                                </TouchableOpacity>
-
-                                <TouchableOpacity
-                                    onPress={() => this.changeTaskStatus(taskDetail.orderId, '2')}
-                                >
-                                    <View style={globalStyles.yellowLargeButton}>
-                                        <Text style={globalStyles.blackButtonText}>确认</Text>
+                                    <View style={globalStyles.darkGreyLargeButton}>
+                                        <Text style={globalStyles.whiteButtonText}>取消接单</Text>
                                     </View>
                                 </TouchableOpacity>
                             </View>
@@ -570,5 +630,23 @@ const styles = StyleSheet.create({
     },
     confirmOverlayFlatListStyle: {
         marginBottom: 20
+    },
+    policyCheckContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: 15,
+        paddingBottom: 25,
+        paddingHorizontal: -10,
+    },
+    blackText: {
+        fontSize: 11,
+        color: '#6C6C6C',
+        fontWeight: '400'
+    },
+    blueText: {
+        fontSize: 11,
+        color: '#65A3FF',
+        fontWeight: '400'
     },
 });

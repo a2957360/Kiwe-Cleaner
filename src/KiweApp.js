@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 
 import { StyleSheet, Text } from 'react-native';
 
-import AsyncStorage from '@react-native-community/async-storage';
-
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -16,24 +14,19 @@ import LandingScreen from './screens/signIn/landingScreen';
 import StartScreen from './screens/signIn/startScreen';
 import PhoneNumberSignIn from './screens/signIn/phoneNumberSignIn';
 
-import CreateTask from './screens/createTask/createTask';
-import CreateTaskService from './screens/createTask/createTaskService';
-import CreateNewTask from './screens/createTask/createNewTask';
-import NewTaskCart from './screens/createTask/newTaskCart';
-import NewTaskCheckOut from './screens/createTask/newTaskCheckOut';
-import NewTaskOrderInfo from './screens/createTask/newTaskOrderInfo';
-
-import UserCenter from './screens/userCenter/userCenter';
-import UserPhoneNumber from './screens/userCenter/userPhoneNumber';
-import UserAddress from './screens/userCenter/userAddress';
-import UserAddressForm from './screens/userCenter/userAddressForm';
-import MyWallet from './screens/userCenter/myWallet';
+import TaskPool from './screens/taskPool/taskPool';
 
 import MyTaskIncompleted from './screens/myTask/myTaskIncompleted';
 import MyTaskCompleted from './screens/myTask/myTaskCompleted';
 import MyTaskDetail from './screens/myTask/myTaskDetail';
 import CustomerServiceForm from './screens/myTask/customerServiceForm';
 import MyTaskComment from './screens/myTask/myTaskComment';
+
+import UserCenter from './screens/userCenter/userCenter';
+import UserPhoneNumber from './screens/userCenter/userPhoneNumber';
+import UserAddress from './screens/userCenter/userAddress';
+import UserAddressForm from './screens/userCenter/userAddressForm';
+import MyWallet from './screens/userCenter/myWallet';
 
 import ServicePolicy from './screens/servicePolicy/servicePolicy';
 
@@ -69,11 +62,11 @@ class KiweApp extends Component {
             ?
             route.state.routes[route.state.index].name
             :
-            route.params?.screen || 'CreateTask';
+            route.params?.screen || 'TaskPool';
 
         switch (routeName) {
-            case 'CreateTask':
-                return '发布任务';
+            case 'TaskPool':
+                return '任务池';
             case 'UserCenter':
                 return '个人中心';
             case 'MyTask':
@@ -98,7 +91,7 @@ class KiweApp extends Component {
                     name='MyTaskIncompleted'
                     component={MyTaskIncompleted}
                     options={{
-                        title: '我发布的',
+                        title: '未完成的',
                     }}
                 />
                 <MaterialTopTabs.Screen
@@ -126,18 +119,24 @@ class KiweApp extends Component {
                 }}
             >
                 <MaterialBottomTabs.Screen
-                    name='CreateTask'
-                    component={CreateTask}
+                    name='TaskPool'
+                    component={TaskPool}
                     options={{
-                        tabBarLabel: <Text style={styles.bottomTabText}>发布任务</Text>,
+                        headerStyle: {
+                            backgroundColor: '#FFFFFF',
+                            shadowColor: 'transparent',
+                            height: 1185,
+                        },
+                        tabBarLabel:
+                            <Text style={styles.bottomTabText}>任务池</Text>,
                         tabBarIcon: ({ color }) => (
                             <MaterialIcons
-                                name='edit'
+                                name='list'
                                 color={color}
                                 size={20}
                                 style={styles.bottomTabIcon}
                             />
-                        ),
+                        )
                     }}
                 />
                 <MaterialBottomTabs.Screen
@@ -183,62 +182,6 @@ class KiweApp extends Component {
                     options={{
                         headerStyle: styles.stackHeader,
                         headerTitleStyle: styles.stackHeaderTitle,
-                    }}
-                />
-                <Stack.Screen
-                    name='CreateTaskService'
-                    component={CreateTaskService}
-                    options={({ route }) =>
-                        ({
-                            title: route.params.typeName,
-                            headerBackTitleVisible: false,
-                            headerStyle: styles.stackHeader,
-                            headerTitleStyle: styles.stackHeaderTitle,
-                            headerTintColor: 'black',
-                        })}
-                />
-                <Stack.Screen
-                    name='CreateNewTask'
-                    component={CreateNewTask}
-                    options={{
-                        title: '发布任务',
-                        headerBackTitleVisible: false,
-                        headerStyle: styles.stackHeader,
-                        headerTitleStyle: styles.stackHeaderTitle,
-                        headerTintColor: 'black',
-                    }}
-                />
-                <Stack.Screen
-                    name='NewTaskCart'
-                    component={NewTaskCart}
-                    options={{
-                        title: '清单',
-                        headerBackTitleVisible: false,
-                        headerStyle: styles.stackHeader,
-                        headerTitleStyle: styles.stackHeaderTitle,
-                        headerTintColor: 'black',
-                    }}
-                />
-                <Stack.Screen
-                    name='NewTaskCheckOut'
-                    component={NewTaskCheckOut}
-                    options={{
-                        title: '结算',
-                        headerBackTitleVisible: false,
-                        headerStyle: styles.stackHeader,
-                        headerTitleStyle: styles.stackHeaderTitle,
-                        headerTintColor: 'black',
-                    }}
-                />
-                <Stack.Screen
-                    name='NewTaskOrderInfo'
-                    component={NewTaskOrderInfo}
-                    options={{
-                        title: '订单信息',
-                        headerBackTitleVisible: false,
-                        headerStyle: styles.stackHeader,
-                        headerTitleStyle: styles.stackHeaderTitle,
-                        headerTintColor: 'black',
                     }}
                 />
                 <Stack.Screen
@@ -427,8 +370,5 @@ const styles = StyleSheet.create({
     },
     bottomTabText: {
         fontSize: 10
-    },
-    bottomTabIcon: {
-
     }
 });

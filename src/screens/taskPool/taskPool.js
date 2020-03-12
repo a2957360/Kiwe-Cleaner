@@ -6,13 +6,13 @@ import { globalStyles } from '../../styles/globalStyles';
 
 import { SimpleLineIcons, Ionicons } from '@expo/vector-icons';
 
-import { getIncompletedTaskData } from '../../actions/task';
+import { getTaskPoolData } from '../../actions/task';
 
 import { MainDomain } from '../../variables/appVariables';
 
 import PageLoading from '../../components/pageLoading';
 
-class MyTaskIncompleted extends Component {
+class TaskPool extends Component {
 
     constructor(props) {
         super(props);
@@ -22,7 +22,7 @@ class MyTaskIncompleted extends Component {
     }
 
     componentDidMount() {
-        this.getIncompletedTask();
+        this.getTaskPool();
     }
 
     componentDidUpdate = (prevProps) => {
@@ -31,17 +31,16 @@ class MyTaskIncompleted extends Component {
         }
     };
 
-    getIncompletedTask = () => {
-        //Get Incompleted Task Data
-        this.props.getIncompletedTask({
-            'userId': this.props.userSignInData.userId,
-            'orderState': '(0,1,2,3,4,5,6)'
+    getTaskPool = () => {
+        //Get Task Pool Data
+        this.props.getTaskPool({
+            'orderState': '(0)'
         });
     }
 
     refreshTaskList = () => {
         this.setState({ isRefreshing: true }, () => {
-            this.getIncompletedTask();
+            this.getTaskPool();
         });
     }
 
@@ -114,7 +113,7 @@ class MyTaskIncompleted extends Component {
     }
 
     render() {
-        if (this.props.incompletedTaskData === undefined) {
+        if (this.props.taskPoolList === undefined) {
             return <PageLoading />
         } else {
             return (
@@ -131,7 +130,7 @@ class MyTaskIncompleted extends Component {
                 >
                     <FlatList
                         style={styles.flatListContainer}
-                        data={this.props.incompletedTaskData}
+                        data={this.props.taskPoolList}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item, index }) => (
                             <View>
@@ -183,19 +182,19 @@ class MyTaskIncompleted extends Component {
 
 function mapStateToProps({ signInData, taskData }) {
     const { userSignInData } = signInData;
-    const { loading, incompletedTaskData } = taskData;
-    return { userSignInData, loading, incompletedTaskData };
+    const { loading, taskPoolList } = taskData;
+    return { userSignInData, loading, taskPoolList };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        getIncompletedTask: (data) => {
-            dispatch(getIncompletedTaskData(data));
+        getTaskPool: (data) => {
+            dispatch(getTaskPoolData(data));
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyTaskIncompleted);
+export default connect(mapStateToProps, mapDispatchToProps)(TaskPool);
 
 const styles = StyleSheet.create({
     container: {

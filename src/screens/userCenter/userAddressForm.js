@@ -56,8 +56,6 @@ class UserAddressForms extends Component {
             userId = this.props.userSignInData.userId;
         }
 
-        console.log('userId',userId)
-
         let addressFormValues;
         if (this.props.route.params === undefined) {
             addressFormValues = {
