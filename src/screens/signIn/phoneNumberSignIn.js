@@ -37,7 +37,10 @@ class PhoneNumberSignIn extends Component {
     };
 
     getVerificationCode = (userPhone) => {
-        this.props.getVerificationCode({ 'userPhone': userPhone });
+        this.props.getVerificationCode({ 
+            'userPhone': userPhone,
+            'userRole': '1',
+        });
     }
 
     onLogin = (values) => {
@@ -75,7 +78,7 @@ class PhoneNumberSignIn extends Component {
 
                 <Formik
                     initialValues={{
-                        userRoles: '0',
+                        userRole: '1',
                         userPhone: '',
                         verificationCode: ''
                     }}
