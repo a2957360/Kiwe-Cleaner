@@ -156,7 +156,7 @@ class MyTaskDetail extends Component {
 					isVisible={this.state.taskCancelOverlayVisible}
 					onBackdropPress={() => this.setState({ taskCancelOverlayVisible: false })}
 				>
-					<View style={styles.taskCancelOverlayContainer}>
+					<View style={styles.overlayContainer}>
 						<View>
 							<AntDesign
 								name="exclamationcircleo"
@@ -193,7 +193,7 @@ class MyTaskDetail extends Component {
 					isVisible={this.state.taskConfrimOverlayVisible}
 					onBackdropPress={() => this.setState({ taskConfrimOverlayVisible: false })}
 				>
-					<View style={styles.taskConfirmOverlayContainer}>
+					<View style={styles.overlayContainer}>
 						<View>
 							<AntDesign
 								name="checkcircleo"
@@ -241,7 +241,7 @@ class MyTaskDetail extends Component {
 					isVisible={this.state.taskTakenOverlayVisible}
 					onBackdropPress={() => this.setState({ taskTakenOverlayVisible: false })}
 				>
-					<View style={styles.taskConfirmOverlayContainer}>
+					<View style={styles.overlayContainer}>
 						<View>
 							<AntDesign
 								name="checkcircleo"
@@ -607,11 +607,7 @@ const styles = StyleSheet.create({
 		fontWeight: '500',
 		color: '#292929',
 	},
-	taskCancelOverlayContainer: {
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	taskConfirmOverlayContainer: {
+	overlayContainer: {
 		justifyContent: 'center',
 		alignItems: 'center',
 	},

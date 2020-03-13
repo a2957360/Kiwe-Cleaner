@@ -3,6 +3,7 @@ import {
     UPDATE_DATA_START,
     GET_USER_INFO_SUCCESS,
     UPLOAD_USER_IMAGE_SUCCESS,
+    SUBMIT_APPLICATION_FORM_SUCCESS,
     GET_USER_ADDRESS_SUCCESS,
     POST_USER_ADDRESS_SUCCESS
 } from '../constants/actionTypes';
@@ -10,6 +11,7 @@ import {
 const INIT_STATE = {
     loading: false,
     updating: false,
+    message: null,
     userUploadImageMessage: null
 };
 
@@ -19,6 +21,7 @@ export default (state = INIT_STATE, action) => {
             return {
                 ...state,
                 loading: true,
+                message: null,
                 userUploadImageMessage: null
             };
         }
@@ -42,6 +45,16 @@ export default (state = INIT_STATE, action) => {
                 ...state,
                 loading: false,
                 updating: false,
+            }
+        }
+
+        case SUBMIT_APPLICATION_FORM_SUCCESS: {
+            console.log(1111111111111111111, action.payload)
+            return {
+                ...state,
+                loading: false,
+                updating: false,
+                message: action.payload.message
             }
         }
 

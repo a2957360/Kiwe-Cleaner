@@ -66,7 +66,7 @@ class UserCenter extends Component {
                 type: 'image/jpeg',
                 name: 'userImage'
             });
-            fileData.append("uploadUserId", userId);
+            fileData.append("userId", userId);
             this.props.uploadUserImage(fileData);
         }
     }
