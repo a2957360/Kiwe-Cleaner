@@ -29,12 +29,14 @@ class CleanerApplicationForm extends Component {
 			imageSide: null,
 			frontSideImage: null,
 			backSideImage: null,
+			submitSuccessOverlayVisible: false,
+			submitFailOverlayVisible: false,
 		};
 	}
 
 	componentDidUpdate = prevProps => {
 		if (prevProps.message !== this.props.message && this.props.message === 'success') {
-			this.props.navigation.navigate('WaitForVerification');
+			this.setState({ submitSuccessOverlayVisible: true });
 		}
 	};
 
@@ -134,7 +136,76 @@ class CleanerApplicationForm extends Component {
 	};
 
 	render() {
+		console.log(this.props.message);
+
 		let userId;
+
+		let submitSuccessOverlay;
+		let submitFailOverlay;
+
+		submitSuccessOverlay = (
+			<Overlay
+				width={300}
+				height={400}
+				overlayStyle={{
+					borderRadius: 25,
+				}}
+				isVisible={this.state.submitSuccessOverlayVisible}
+			>
+				<View style={styles.overlayContainer}>
+					<View style={{ justifyContent: 'center', alignItems: 'center' }}>
+						<AntDesign
+							name="checkcircleo"
+							color="#FFCC34"
+							size={120}
+							style={{ marginTop: 45, marginBottom: 25 }}
+						/>
+						<Text style={styles.overlayTitleStyle}>提交成功</Text>
+					</View>
+
+                    <View style={{ marginBottom: 20 }}>
+						<TouchableOpacity onPress={() => this.setState({ submitSuccessOverlayVisible: false }, () => {
+                            this.props.navigation.goBack()
+                        })}>
+							<View style={globalStyles.yellowMediumButton}>
+								<Text style={globalStyles.blackButtonText}>返回登录</Text>
+							</View>
+						</TouchableOpacity>
+					</View>
+				</View>
+			</Overlay>
+		);
+
+		submitFailOverlay = (
+			<Overlay
+				width={300}
+				height={400}
+				overlayStyle={{
+					borderRadius: 25,
+				}}
+				isVisible={this.state.submitFailOverlayVisible}
+			>
+				<View style={styles.overlayContainer}>
+					<View style={{ justifyContent: 'center', alignItems: 'center' }}>
+						<AntDesign
+							name="exclamationcircleo"
+							color="#FF2020"
+							size={120}
+							style={{ marginTop: 45, marginBottom: 25 }}
+						/>
+						<Text style={styles.overlayTitleStyle}>提交失败，请检查内容</Text>
+					</View>
+
+					<View style={{ marginBottom: 20 }}>
+						<TouchableOpacity onPress={() => this.setState({ submitFailOverlayVisible: false })}>
+							<View style={globalStyles.redMediumButton}>
+								<Text style={globalStyles.blackButtonText}>确认</Text>
+							</View>
+						</TouchableOpacity>
+					</View>
+				</View>
+			</Overlay>
+		);
 
 		if (this.props.userSignInData !== undefined) {
 			userId = this.props.userSignInData.userId;
@@ -142,6 +213,8 @@ class CleanerApplicationForm extends Component {
 
 		return (
 			<View style={globalStyles.whiteBackgroundContainer}>
+				{submitSuccessOverlay}
+				{submitFailOverlay}
 				<Formik
 					initialValues={{
 						userId: userId,
@@ -316,8 +389,8 @@ class CleanerApplicationForm extends Component {
 }
 
 function mapStateToProps({ signInData, userData, taskData }) {
-    const { userSignInData } = signInData;
-    const { message } = userData;
+	const { userSignInData } = signInData;
+	const { message } = userData;
 	const { createTaskMessage, newTaskData } = taskData;
 	return { message, userSignInData, createTaskMessage, newTaskData };
 }
@@ -398,5 +471,10 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		color: '#65A3FF',
 		fontWeight: '400',
+    },
+    overlayContainer: {
+        flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 });

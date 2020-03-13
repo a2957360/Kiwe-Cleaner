@@ -40,7 +40,13 @@ class PhoneNumberSignIn extends Component {
 			prevProps.userSignInMessage !== this.props.userSignInMessage &&
 			this.props.userSignInMessage === 'success'
 		) {
-			this.setState({ loginSuccessOverlayVisible: true });
+			if(this.props.userSignInData.userState === "3"){
+				this.setState({ loginSuccessOverlayVisible: true });
+			} 
+
+			if(this.props.userSignInData.userState === "0"){
+				this.props.navigation.navigate('WaitForVerification');
+			}
 		}
 
 		if (

@@ -7,22 +7,30 @@ import { globalStyles } from '../../styles/globalStyles';
 import { AntDesign } from '@expo/vector-icons';
 
 class WaitForVerification extends Component {
-    
 	componentDidMount() {}
 
 	render() {
 		return (
 			<View style={styles.container}>
-				<View>
-					<AntDesign
-						name="exclamationcircleo"
-						color="#FF2020"
-						size={120}
-						style={{ marginTop: 45, marginBottom: 35 }}
-					/>
+				<View style={{ flex: 0.8, justifyContent: 'center', alignItems: 'center' }}>
+					<View>
+						<AntDesign
+							name="exclamationcircleo"
+							color="#FF2020"
+							size={120}
+							style={{ marginTop: 45, marginBottom: 35 }}
+						/>
+					</View>
+					<View
+						style={{
+							width: '80%',
+							justifyContent: 'center',
+							alignContent: 'center',
+						}}
+					>
+						<Text style={styles.overlayTitleStyle}>您好，您的账号正在等待审核，如有问题，请联系客服</Text>
+					</View>
 				</View>
-
-				<Text style={styles.cancelOverlayTitleStyle}>您好，您的账号正在等待审核，如有问题，请联系客服</Text>
 
 				<View style={globalStyles.bottomSingleButtonContainer}>
 					<TouchableOpacity onPress={() => this.props.navigation.navigate('CustomerServiceForm')}>
@@ -51,9 +59,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: '#fff',
 	},
-	policyText: {
-		color: '#6C6C6C',
-		fontSize: 12,
-		marginBottom: 20,
+	overlayTitleStyle: {
+		fontSize: 20,
+		fontWeight: 'bold',
+		textAlign: 'center',
+		lineHeight: 25
 	},
 });

@@ -52,7 +52,9 @@ class KiweApp extends Component {
 			prevProps.userSignInMessage !== this.props.userSignInMessage &&
 			this.props.userSignInMessage === 'success'
 		) {
-			//this.setState({ userLogin: 1 })
+			if (this.props.userSignInData.userState === '1') {
+				this.setState({ userLogin: 1 });
+			}
 		}
 
 		if (
