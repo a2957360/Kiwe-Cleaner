@@ -160,24 +160,6 @@ class UserCenter extends Component {
                                 onPress={() => this.props.navigation.navigate('UserAddress')}
                             />
                         </View>
-
-                        <View style={{ marginBottom: 20 }}>
-                            <ListItem
-                                containerStyle={{ paddingVertical: 10, paddingLeft: 20 }}
-                                title='联系客服'
-                                titleStyle={{ color: '#1C1D27', fontSize: 16 }}
-                                chevron={
-                                    <Entypo
-                                        name='chevron-small-right'
-                                        color='#1C1D27'
-                                        size={30}
-                                        style={{ paddingTop: 4 }}
-                                    />}
-                                topDivider={true}
-                                bottomDivider={true}
-                                onPress={() => this.props.navigation.navigate('CustomerServiceForm')}
-                            />
-                        </View>
                     </View>
 
                     <View style={{ position: 'absolute', left: 0, bottom: 20, right: 0 }}>

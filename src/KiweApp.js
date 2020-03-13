@@ -19,7 +19,7 @@ import TaskPool from './screens/taskPool/taskPool';
 import MyTaskIncompleted from './screens/myTask/myTaskIncompleted';
 import MyTaskCompleted from './screens/myTask/myTaskCompleted';
 import MyTaskDetail from './screens/myTask/myTaskDetail';
-import CleanerCheckInForm from './screens/myTask/cleanerCheckInForm';
+import CleanerCheckinForm from './screens/myTask/cleanerCheckinForm';
 import CustomerServiceForm from './screens/myTask/customerServiceForm';
 import MyTaskComment from './screens/myTask/myTaskComment';
 
@@ -253,8 +253,8 @@ class KiweApp extends Component {
                     }}
                 />
                 <Stack.Screen
-                    name='CleanerCheckInForm'
-                    component={CleanerCheckInForm}
+                    name='CleanerCheckinForm'
+                    component={CleanerCheckinForm}
                     options={{
                         title: '确认单位',
                         headerBackTitleVisible: false,

@@ -21,14 +21,7 @@ class MyTaskComment extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedIndex: 1,
-            buttons: ['10%', '15%', '20%'],
-            tipsOverlayVisible: false,
             finishCommentOverlayVisible: false,
-            textTips: '',
-            commentIndex: 0,
-
-            orderTip: '15%',
             commentRating: 5
         };
     }
@@ -41,28 +34,20 @@ class MyTaskComment extends Component {
         this.setState({ commentRating: rating })
     }
 
-    updateIndex = (selectedIndex) => {
-        this.setState({
-            selectedIndex: selectedIndex,
-            orderTip: this.state.buttons[selectedIndex]
-        });
-    }
-
-    changeTaskStatus = (id, state) => {
+    changeTaskState = (id) => {
         let data = {
             orderId: id,
-            orderState: state,
-            orderTip: this.state.orderTip,
-            userReviewRate: this.state.commentRating,
+            cleanerReviewRate: this.state.commentRating,
         }
+
         this.setState({ finishCommentOverlayVisible: true }, () => {
-            this.props.changeTaskStatus(data);
+            this.props.changeTaskState(data);
         })
     }
 
     navigationToTaskDetail = (taskDetail) => {
         this.setState({ finishCommentOverlayVisible: false }, () => {
-            this.props.navigation.navigate('MyTaskDetail', taskDetail)
+            this.props.navigation.navigate('MyTaskDetail', taskDetail);
         })
     }
 
@@ -75,118 +60,12 @@ class MyTaskComment extends Component {
     render() {
         let taskDetail = this.props.route.params;
 
-        let tipsSection;
-
-        if (this.state.commentIndex === 1) {
-            tipsSection =
-                <View style={styles.textTipsInputContainer}>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: -5 }}>添加小费</Text>
-                    <Text style={styles.textTipsInput}>
-                        {this.state.orderTip}
-                    </Text>
-                </View>
-        } else {
-            tipsSection =
-                <View>
-                    <View style={styles.tipContainer}>
-                        <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 30 }}>添加小费</Text>
-
-                        <ButtonGroup
-                            onPress={this.updateIndex}
-                            selectedIndex={this.state.selectedIndex}
-                            buttons={this.state.buttons}
-                            containerStyle={{
-                                height: 60,
-                                width: 285,
-                                borderWidth: 0,
-                            }}
-                            buttonStyle={{
-                                height: 60,
-                                width: 60,
-                                borderWidth: 1,
-                                borderColor: '#EAEAEA',
-                                borderRadius: 30,
-                                marginHorizontal: 17.5
-                            }}
-                            selectedButtonStyle={{
-                                backgroundColor: '#65A3FF',
-                                borderWidth: 0,
-                            }}
-                            innerBorderStyle={{
-                                width: 0,
-                            }}
-                            textStyle={{
-                                fontSize: 16,
-                                fontWeight: 'bold'
-                            }}
-                        />
-                    </View>
-
-                    <Overlay
-                        width={375}
-                        height={170}
-                        containerStyle={{
-                            position: 'absolute',
-                        }}
-                        overlayStyle={{
-                            marginTop: 60
-                        }}
-                        isVisible={this.state.tipsOverlayVisible}
-                        onBackdropPress={() => this.setState({ tipsOverlayVisible: false })}
-                    >
-                        <View style={styles.textTipsInputContainer}>
-                            <TextInputMask
-                                style={styles.textTipsInput}
-                                type={'money'}
-                                options={{
-                                    precision: 2,
-                                    separator: '.',
-                                    delimiter: ',',
-                                    unit: '$'
-                                }}
-                                value={this.state.textTips}
-                                onChangeText={text => {
-                                    this.setState({
-                                        textTips: text
-                                    })
-                                }}
-                                autoFocus={true}
-                            />
-                        </View>
-
-                        <View style={styles.overlayButtonsContainer}>
-                            <TouchableOpacity onPress={() => this.setState({ tipsOverlayVisible: false })}>
-                                <View style={styles.greySmallButton}>
-                                    <Text style={styles.greyButtonText}>取消</Text>
-                                </View>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity onPress={() => this.setState({ tipsOverlayVisible: false, orderTip: this.state.textTips, commentIndex: 1 })}>
-                                <View style={styles.yellowSmallButton}>
-                                    <Text style={styles.blackButtonText}>确认</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                    </Overlay>
-
-                    <TouchableOpacity onPress={() => this.setState({ tipsOverlayVisible: true })}>
-                        <KeyboardAvoidingView style={styles.customizeTipButtonContainer}>
-                            <TextInput
-                                keyboardType="number-pad"
-                                style={styles.customizeTipButtonText}
-                            />
-                            <Text style={styles.customizeTipButtonText}>自定义</Text>
-                        </KeyboardAvoidingView>
-                    </TouchableOpacity>
-                </View>
-        }
-
         return (
             <View style={styles.container}>
                 <View style={styles.ratingContainer}>
-                    <Image style={{ width: 80, height: 80, marginBottom: 10, borderRadius: 40 }} source={{ uri: MainDomain + taskDetail.cleanerPhoto }} />
+                    <Image style={{ width: 80, height: 80, marginBottom: 10, borderRadius: 40 }} source={{ uri: MainDomain + taskDetail.userPhoto }} />
 
-                    <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 20 }}>{taskDetail.cleanerName}</Text>
+                    <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 20 }}>{taskDetail.userName}</Text>
 
                     <AirbnbRating
                         count={5}
@@ -197,10 +76,8 @@ class MyTaskComment extends Component {
                     />
                 </View>
 
-                {tipsSection}
-
                 <View style={globalStyles.bottomSingleButtonContainer}>
-                    <TouchableOpacity onPress={() => this.changeTaskStatus(taskDetail.orderId, '7')}>
+                    <TouchableOpacity onPress={() => this.changeTaskState(taskDetail.orderId)}>
                         <View style={globalStyles.yellowLargeButton}>
                             <Text style={globalStyles.blackButtonText}>确认</Text>
                         </View>
@@ -238,7 +115,6 @@ class MyTaskComment extends Component {
                                 <Text style={globalStyles.blackButtonText}>回到订单</Text>
                             </View>
                         </TouchableOpacity>
-
                     </View>
                 </Overlay>
             </View>
@@ -254,7 +130,7 @@ function mapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
     return {
-        changeTaskStatus: (data) => {
+        changeTaskState: (data) => {
             dispatch(changeTaskStateData(data));
         }
     }
@@ -270,7 +146,7 @@ const styles = StyleSheet.create({
     ratingContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 111,
+        marginTop: 200,
         marginBottom: 89,
     },
     tipContainer: {

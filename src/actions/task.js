@@ -7,7 +7,8 @@ import {
     GET_USER_COMPLETED_TASK_SUCCESS,
     GET_TASK_DETAIL_SUCCESS,
     CHANGE_TASK_STATE_SUCCESS,
-    CREATE_NEW_TASK_SUCCESS
+    CREATE_NEW_TASK_SUCCESS,
+    UPLOAD_MULTIPLE_IMAGES_SUCCESS
 } from '../constants/actionTypes';
 import { MainDomain } from '../variables/appVariables';
 import axios from 'axios';
@@ -52,7 +53,7 @@ export const getCompletedTaskData = (data) => {
     return dispatch => {
         dispatch({ type: FETCH_DATA_START });
         axios
-            .get(MainDomain + 'orderModule.php' + `?userId=${data.userId}&orderState=${data.orderState}`)
+            .get(MainDomain + 'orderModule.php' + `?cleanerId=${data.cleanerId}&orderState=${data.orderState}`)
             .then(res => {
                 dispatch({ type: GET_USER_COMPLETED_TASK_SUCCESS, payload: res.data });
             })
@@ -95,3 +96,15 @@ export const createNewTaskData = (data) => {
             })
     };
 }
+
+export const uploadMultipleImagesData = (data) => {
+    return dispatch => {
+        dispatch({ type: UPDATE_DATA_START, });
+        axios
+            .post(MainDomain + `uploadMutiPic.php`, data, { headers: { 'Content-Type': 'application/json' } })
+            .then(res => {
+                console.log(res.data)
+                dispatch({ type: UPLOAD_MULTIPLE_IMAGES_SUCCESS, payload: res.data });
+            })
+    };
+};

@@ -59,6 +59,7 @@ class PhoneNumberSignIn extends Component {
                 <Spinner
                     visible={this.state.loadingSpinner}
                 />
+                
                 <KeyboardListener
                     onWillShow={() => {
                         setTimeout(() => {

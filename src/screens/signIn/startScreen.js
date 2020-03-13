@@ -14,7 +14,7 @@ class StartScreen extends Component {
         return (
             <View style={globalStyles.blueBackgroundContainer}>
                 <View style={styles.logoContainer}>
-                    <Image style={styles.logoImage} source={require('../../../assets/logo.png')} />
+                    <Image resizeMode="contain" style={styles.logoImage} source={require('../../../assets/logo.png')} />
                 </View>
 
                 <View style={styles.bottomButtonContainer}>
@@ -70,11 +70,4 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center'
     },
-    // whiteTitleContainer: {
-    //     justifyContent: 'center',
-    //     alignItems: 'center',
-    // },
-    // whiteTitleText: {
-    //     color: 'white'
-    // }
 });
