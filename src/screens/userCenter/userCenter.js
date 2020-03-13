@@ -143,22 +143,6 @@ class UserCenter extends Component {
                                 bottomDivider={true}
                                 onPress={() => this.props.navigation.navigate('UserPhoneNumber')}
                             />
-                            <ListItem
-                                containerStyle={{ paddingVertical: 10, paddingLeft: 20 }}
-                                title='我的地址'
-                                titleStyle={{ color: '#1C1D27', fontSize: 16 }}
-                                rightTitle={userInfo.cityName}
-                                rightTitleStyle={{ color: '#1C1D27', fontSize: 16 }}
-                                chevron={
-                                    <Entypo
-                                        name='chevron-small-right'
-                                        color='#1C1D27'
-                                        size={30}
-                                        style={{ paddingTop: 4 }}
-                                    />}
-                                bottomDivider={true}
-                                onPress={() => this.props.navigation.navigate('UserAddress')}
-                            />
                         </View>
                     </View>
 

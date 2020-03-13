@@ -152,7 +152,13 @@ class CleanerApplicationForm extends Component {
 				}}
 				isVisible={this.state.submitSuccessOverlayVisible}
 			>
-				<View style={styles.overlayContainer}>
+				<View
+					style={{
+						flex: 1,
+						justifyContent: 'space-between',
+						alignItems: 'center',
+					}}
+				>
 					<View style={{ justifyContent: 'center', alignItems: 'center' }}>
 						<AntDesign
 							name="checkcircleo"
@@ -163,10 +169,14 @@ class CleanerApplicationForm extends Component {
 						<Text style={styles.overlayTitleStyle}>提交成功</Text>
 					</View>
 
-                    <View style={{ marginBottom: 20 }}>
-						<TouchableOpacity onPress={() => this.setState({ submitSuccessOverlayVisible: false }, () => {
-                            this.props.navigation.goBack()
-                        })}>
+					<View style={{ marginBottom: 20 }}>
+						<TouchableOpacity
+							onPress={() =>
+								this.setState({ submitSuccessOverlayVisible: false }, () => {
+									this.props.navigation.goBack();
+								})
+							}
+						>
 							<View style={globalStyles.yellowMediumButton}>
 								<Text style={globalStyles.blackButtonText}>返回登录</Text>
 							</View>
@@ -364,9 +374,23 @@ class CleanerApplicationForm extends Component {
 							</View>
 
 							<View style={globalStyles.bottomSingleButtonContainer}>
-								<TouchableOpacity onPress={props.handleSubmit}>
-									<View style={globalStyles.yellowLargeButton}>
-										<Text style={globalStyles.blackButtonText}>提交</Text>
+								<TouchableOpacity disabled={!this.state.policyChecked} onPress={props.handleSubmit}>
+									<View
+										style={
+											this.state.policyChecked === true
+												? globalStyles.yellowLargeButton
+												: globalStyles.lightGreyLargeButton
+										}
+									>
+										<Text
+											style={
+												this.state.policyChecked === true
+													? globalStyles.blackButtonText
+													: globalStyles.whiteButtonText
+											}
+										>
+											提交
+										</Text>
 									</View>
 								</TouchableOpacity>
 							</View>
@@ -471,10 +495,11 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		color: '#65A3FF',
 		fontWeight: '400',
-    },
-    overlayContainer: {
-        flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
+	},
+	overlayTitleStyle: {
+		fontSize: 20,
+		fontWeight: 'bold',
+		textAlign: 'center',
+		lineHeight: 25,
 	},
 });
