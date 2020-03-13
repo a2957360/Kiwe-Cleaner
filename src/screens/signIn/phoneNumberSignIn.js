@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, Button } from 'react-native';
 
 import { Overlay, CheckBox } from 'react-native-elements';
 
@@ -28,8 +28,12 @@ class PhoneNumberSignIn extends Component {
 			loadingSpinner: false,
 			loginSuccessOverlayVisible: false,
 			loginFailOverlayVisible: false,
+			timerStart: false,
+			seconds: 0,
 		};
 	}
+
+	componentDidMount = () => {};
 
 	componentDidUpdate = prevProps => {
 		if (prevProps.loading !== this.props.loading && this.props.loading === false) {
@@ -40,11 +44,11 @@ class PhoneNumberSignIn extends Component {
 			prevProps.userSignInMessage !== this.props.userSignInMessage &&
 			this.props.userSignInMessage === 'success'
 		) {
-			if(this.props.userSignInData.userState === "3"){
+			if (this.props.userSignInData.userState === '3') {
 				this.setState({ loginSuccessOverlayVisible: true });
-			} 
+			}
 
-			if(this.props.userSignInData.userState === "0"){
+			if (this.props.userSignInData.userState === '0') {
 				this.props.navigation.navigate('WaitForVerification');
 			}
 		}
@@ -58,23 +62,41 @@ class PhoneNumberSignIn extends Component {
 	};
 
 	getVerificationCode = userPhone => {
-		this.props.getVerificationCode({
-			userPhone: userPhone,
-			userRole: '1',
-		});
+		this.countTime();
+		this.setState({ timerStart: true }),
+			() =>
+				this.props.getVerificationCode({
+					userPhone: userPhone,
+					userRole: '1',
+				});
 	};
 
 	onLogin = values => {
 		this.setState({ loadingSpinner: true }, () => {
 			this.props.checkVerificationCode(values);
 		});
-    };
-    
-    navigateToCleanerApplicationForm = () => {
-        this.setState({ loginSuccessOverlayVisible: false }, () => {
-			this.props.navigation.navigate('CleanerApplicationForm')
+	};
+
+	navigateToCleanerApplicationForm = () => {
+		this.setState({ loginSuccessOverlayVisible: false }, () => {
+			this.props.navigation.navigate('CleanerApplicationForm');
 		});
-    }
+	};
+
+	countTime() {
+		this.setState({ seconds: 60 });
+		this.timer = setInterval(() => {
+			let currentTime = this.state.seconds; //获取秒
+			if (currentTime > 1) {
+				//如果秒大于0，则执行减1
+				currentTime--;
+				this.setState({ seconds: currentTime }); //更改秒的状态
+			} else if (currentTime === 1) {
+				this.timer && clearInterval(this.timer);
+				this.setState({ timerStart: false });
+			}
+		}, 1000);
+	}
 
 	render() {
 		let loginSuccessOverlay;
@@ -210,11 +232,14 @@ class PhoneNumberSignIn extends Component {
 								/>
 
 								<TouchableOpacity
+									disabled={this.state.timerStart}
 									style={{ right: 5, justifyContent: 'center', alignItems: 'flex-end' }}
 									onPress={() => this.getVerificationCode(props.values.userPhone)}
 								>
 									<View style={styles.sendCodeButtonContainer}>
-										<Text style={styles.sendCodeButtonText}>发送</Text>
+										<Text style={styles.sendCodeButtonText}>
+											{this.state.timerStart ? this.state.seconds + `s` : '发送'}
+										</Text>
 									</View>
 								</TouchableOpacity>
 							</View>
@@ -238,7 +263,7 @@ class PhoneNumberSignIn extends Component {
 								<View>
 									<Text style={styles.blackText}>已阅读并同意</Text>
 								</View>
-                                
+
 								<TouchableOpacity onPress={() => this.props.navigation.navigate('ServicePolicy')}>
 									<View>
 										<Text style={styles.blueText}>服务条款和隐私政策</Text>
