@@ -103,7 +103,6 @@ export const uploadMultipleImagesData = (data) => {
         axios
             .post(MainDomain + `uploadMutiPic.php`, data, { headers: { 'Content-Type': 'application/json' } })
             .then(res => {
-                console.log(res.data)
                 dispatch({ type: UPLOAD_MULTIPLE_IMAGES_SUCCESS, payload: res.data });
             })
     };

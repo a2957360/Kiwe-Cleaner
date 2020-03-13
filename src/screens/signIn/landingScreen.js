@@ -10,7 +10,6 @@ class LandingScreen extends Component {
 	componentDidMount() {}
 
 	render() {
-		console.log(screenWidth, screenHeight);
 		return (
 			<View style={globalStyles.blueBackgroundContainer}>
 				<View style={styles.logoContainer}>
