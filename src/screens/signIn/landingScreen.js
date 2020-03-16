@@ -24,10 +24,6 @@ class LandingScreen extends Component {
 					<Text style={styles.landingSubtitle}>Book Cleaner at the Comfort of you home.</Text>
 				</View>
 
-				<View style={styles.landingSubtitleContainer}>
-					<Text style={styles.landingSubtitle}>保洁端</Text>
-				</View>
-
 				<View style={styles.landingImageContainer}>
 					<Image
 						style={styles.landingImage}
