@@ -21,7 +21,7 @@ import TaskPool from './screens/taskPool/taskPool';
 import MyTaskIncompleted from './screens/myTask/myTaskIncompleted';
 import MyTaskCompleted from './screens/myTask/myTaskCompleted';
 import MyTaskDetail from './screens/myTask/myTaskDetail';
-import CleanerCheckinForm from './screens/myTask/cleanerCheckinForm';
+import CleanerCheckinForm from './screens/myTask/cleanerCheckInForm';
 import CustomerServiceForm from './screens/myTask/customerServiceForm';
 import MyTaskComment from './screens/myTask/myTaskComment';
 

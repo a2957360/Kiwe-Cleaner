@@ -44,7 +44,7 @@ class CleanerCheckinform extends Component {
 		}
 
 		if (prevProps.message !== this.props.message && this.props.message === 'success') {
-			this.props.navigation.goBack();
+			this.props.navigation.navigate('MyTaskDetail');
 		}
 	};
 
@@ -106,6 +106,7 @@ class CleanerCheckinform extends Component {
 	};
 
 	render() {
+		console.log(this.props.message)
 		let orderId = this.props.route.params;
 
 		return (

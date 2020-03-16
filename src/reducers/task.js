@@ -30,6 +30,7 @@ export default (state = INIT_STATE, action) => {
 			return {
 				...state,
 				loading: true,
+				message: null,
 				createTaskMessage: null,
 			};
 		}

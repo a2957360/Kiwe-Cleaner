@@ -136,8 +136,6 @@ class CleanerApplicationForm extends Component {
 	};
 
 	render() {
-		console.log(this.props.message);
-
 		let userId;
 
 		let submitSuccessOverlay;

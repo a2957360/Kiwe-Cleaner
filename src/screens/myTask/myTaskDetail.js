@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, RefreshControl, ScrollView } from 'react-native';
 
 import { globalStyles } from '../../styles/globalStyles';
 
@@ -29,10 +29,20 @@ class MyTaskDetail extends Component {
 	}
 
 	componentDidUpdate = prevProps => {
+		if ((prevProps.loading !== this.props.loading) && (this.props.loading === false)) {
+			this.setState({ isRefreshing: false });
+		}
+
 		if (prevProps.updating === true && this.props.updating === false) {
 			this.props.getTaskDetail({ orderId: this.props.route.params.orderId });
 		}
 	};
+
+	refreshCurrentPage = () => {
+		this.setState({ isRefreshing: true }, () => {
+			this.props.getTaskDetail({ orderId: this.props.route.params.orderId });
+		});
+	}
 
 	changeTaskStatus = (orderId, state, cleanerId) => {
 		let changeTaskStateData = {};
@@ -79,7 +89,7 @@ class MyTaskDetail extends Component {
 
 		let { userId } = this.props.userSignInData;
 
-		if (this.props.loading === true || this.props.taskDetailData === undefined) {
+		if (this.props.taskDetailData === undefined) {
 			return <PageLoading />;
 		} else {
 			taskDetail = this.props.taskDetailData[0];
@@ -316,16 +326,16 @@ class MyTaskDetail extends Component {
 
 			taskDetail.cleanerReviewRate === '0'
 				? (taskCommentButton = (
-						<View style={globalStyles.bottomSingleButtonContainer}>
-							<TouchableOpacity
-								onPress={() => this.props.navigation.navigate('MyTaskComment', taskDetail)}
-							>
-								<View style={globalStyles.yellowLargeButton}>
-									<Text style={globalStyles.blackButtonText}>评论</Text>
-								</View>
-							</TouchableOpacity>
-						</View>
-				  ))
+					<View style={globalStyles.bottomSingleButtonContainer}>
+						<TouchableOpacity
+							onPress={() => this.props.navigation.navigate('MyTaskComment', taskDetail)}
+						>
+							<View style={globalStyles.yellowLargeButton}>
+								<Text style={globalStyles.blackButtonText}>评论</Text>
+							</View>
+						</TouchableOpacity>
+					</View>
+				))
 				: (taskCommentButton = null);
 
 			switch (taskDetail.orderState) {
@@ -333,8 +343,20 @@ class MyTaskDetail extends Component {
 				case '0':
 					return (
 						<View style={globalStyles.whiteBackgroundContainer}>
-							{backgroundImageSection}
-							{taskDetailInfoSection}
+							<ScrollView
+								style={styles.container}
+								showsVerticalScrollIndicator={false}
+								refreshControl={
+									<RefreshControl
+										refreshing={this.state.isRefreshing}
+										onRefresh={this.refreshCurrentPage}
+										tintColor="#f2f2f2"
+									/>
+								}
+							>
+								{backgroundImageSection}
+								{taskDetailInfoSection}
+							</ScrollView >
 
 							<View style={globalStyles.bottomSingleButtonContainer}>
 								<TouchableOpacity onPress={() => this.setState({ taskTakenOverlayVisible: true })}>
@@ -351,8 +373,20 @@ class MyTaskDetail extends Component {
 				case '1':
 					return (
 						<View style={globalStyles.whiteBackgroundContainer}>
-							{backgroundImageSection}
-							{taskDetailInfoSection}
+							<ScrollView
+								style={styles.container}
+								showsVerticalScrollIndicator={false}
+								refreshControl={
+									<RefreshControl
+										refreshing={this.state.isRefreshing}
+										onRefresh={this.refreshCurrentPage}
+										tintColor="#f2f2f2"
+									/>
+								}
+							>
+								{backgroundImageSection}
+								{taskDetailInfoSection}
+							</ScrollView >
 
 							<View style={globalStyles.bottomSingleButtonContainer}>
 								<TouchableOpacity onPress={() => this.setState({ taskCancelOverlayVisible: true })}>
@@ -369,8 +403,20 @@ class MyTaskDetail extends Component {
 				case '2':
 					return (
 						<View style={globalStyles.whiteBackgroundContainer}>
-							{backgroundImageSection}
-							{taskDetailInfoSection}
+							<ScrollView
+								style={styles.container}
+								showsVerticalScrollIndicator={false}
+								refreshControl={
+									<RefreshControl
+										refreshing={this.state.isRefreshing}
+										onRefresh={this.refreshCurrentPage}
+										tintColor="#f2f2f2"
+									/>
+								}
+							>
+								{backgroundImageSection}
+								{taskDetailInfoSection}
+							</ScrollView >
 
 							<View style={globalStyles.bottomDoubleButtonContainer}>
 								<TouchableOpacity onPress={() => this.setState({ taskCancelOverlayVisible: true })}>
@@ -393,16 +439,40 @@ class MyTaskDetail extends Component {
 				case '3':
 					return (
 						<View style={globalStyles.whiteBackgroundContainer}>
-							{backgroundImageSection}
-							{taskDetailInfoSection}
+							<ScrollView
+								style={styles.container}
+								showsVerticalScrollIndicator={false}
+								refreshControl={
+									<RefreshControl
+										refreshing={this.state.isRefreshing}
+										onRefresh={this.refreshCurrentPage}
+										tintColor="#f2f2f2"
+									/>
+								}
+							>
+								{backgroundImageSection}
+								{taskDetailInfoSection}
+							</ScrollView >
 						</View>
 					);
 				//服务中
 				case '4':
 					return (
 						<View style={globalStyles.whiteBackgroundContainer}>
-							{backgroundImageSection}
-							{taskDetailInfoSection}
+							<ScrollView
+								style={styles.container}
+								showsVerticalScrollIndicator={false}
+								refreshControl={
+									<RefreshControl
+										refreshing={this.state.isRefreshing}
+										onRefresh={this.refreshCurrentPage}
+										tintColor="#f2f2f2"
+									/>
+								}
+							>
+								{backgroundImageSection}
+								{taskDetailInfoSection}
+							</ScrollView >
 
 							<View style={globalStyles.bottomSingleButtonContainer}>
 								<TouchableOpacity onPress={() => this.changeTaskStatus(taskDetail.orderId, 5)}>
@@ -417,24 +487,60 @@ class MyTaskDetail extends Component {
 				case '5':
 					return (
 						<View style={globalStyles.whiteBackgroundContainer}>
-							{backgroundImageSection}
-							{taskDetailInfoSection}
+							<ScrollView
+								style={styles.container}
+								showsVerticalScrollIndicator={false}
+								refreshControl={
+									<RefreshControl
+										refreshing={this.state.isRefreshing}
+										onRefresh={this.refreshCurrentPage}
+										tintColor="#f2f2f2"
+									/>
+								}
+							>
+								{backgroundImageSection}
+								{taskDetailInfoSection}
+							</ScrollView >
 						</View>
 					);
 				//服务完成/已确认-评论结账
 				case '6':
 					return (
 						<View style={globalStyles.whiteBackgroundContainer}>
-							{backgroundImageSection}
-							{taskDetailInfoSection}
+							<ScrollView
+								style={styles.container}
+								showsVerticalScrollIndicator={false}
+								refreshControl={
+									<RefreshControl
+										refreshing={this.state.isRefreshing}
+										onRefresh={this.refreshCurrentPage}
+										tintColor="#f2f2f2"
+									/>
+								}
+							>
+								{backgroundImageSection}
+								{taskDetailInfoSection}
+							</ScrollView >
 						</View>
 					);
 				//已评论
 				case '7':
 					return (
 						<View style={globalStyles.whiteBackgroundContainer}>
-							{backgroundImageSection}
-							{taskDetailInfoSection}
+							<ScrollView
+								style={styles.container}
+								showsVerticalScrollIndicator={false}
+								refreshControl={
+									<RefreshControl
+										refreshing={this.state.isRefreshing}
+										onRefresh={this.refreshCurrentPage}
+										tintColor="#f2f2f2"
+									/>
+								}
+							>
+								{backgroundImageSection}
+								{taskDetailInfoSection}
+							</ScrollView >
 							{taskCommentButton}
 						</View>
 					);
@@ -442,24 +548,60 @@ class MyTaskDetail extends Component {
 				case '8':
 					return (
 						<View style={globalStyles.whiteBackgroundContainer}>
-							{backgroundImageSection}
-							{taskDetailInfoSection}
+							<ScrollView
+								style={styles.container}
+								showsVerticalScrollIndicator={false}
+								refreshControl={
+									<RefreshControl
+										refreshing={this.state.isRefreshing}
+										onRefresh={this.refreshCurrentPage}
+										tintColor="#f2f2f2"
+									/>
+								}
+							>
+								{backgroundImageSection}
+								{taskDetailInfoSection}
+							</ScrollView >
 						</View>
 					);
 				//仲裁中
 				case '9':
 					return (
 						<View style={globalStyles.whiteBackgroundContainer}>
-							{backgroundImageSection}
-							{taskDetailInfoSection}
+							<ScrollView
+								style={styles.container}
+								showsVerticalScrollIndicator={false}
+								refreshControl={
+									<RefreshControl
+										refreshing={this.state.isRefreshing}
+										onRefresh={this.refreshCurrentPage}
+										tintColor="#f2f2f2"
+									/>
+								}
+							>
+								{backgroundImageSection}
+								{taskDetailInfoSection}
+							</ScrollView >
 						</View>
 					);
 				//仲裁完成
 				case '10':
 					return (
 						<View style={globalStyles.whiteBackgroundContainer}>
-							{backgroundImageSection}
-							{taskDetailInfoSection}
+							<ScrollView
+								style={styles.container}
+								showsVerticalScrollIndicator={false}
+								refreshControl={
+									<RefreshControl
+										refreshing={this.state.isRefreshing}
+										onRefresh={this.refreshCurrentPage}
+										tintColor="#f2f2f2"
+									/>
+								}
+							>
+								{backgroundImageSection}
+								{taskDetailInfoSection}
+							</ScrollView >
 						</View>
 					);
 				default:

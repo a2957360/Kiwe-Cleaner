@@ -34,9 +34,10 @@ class MyTaskComment extends Component {
         this.setState({ commentRating: rating })
     }
 
-    changeTaskState = (id) => {
+    changeTaskState = (id, state) => {
         let data = {
             orderId: id,
+            orderState: state,
             cleanerReviewRate: this.state.commentRating,
         }
 
@@ -77,7 +78,7 @@ class MyTaskComment extends Component {
                 </View>
 
                 <View style={globalStyles.bottomSingleButtonContainer}>
-                    <TouchableOpacity onPress={() => this.changeTaskState(taskDetail.orderId)}>
+                    <TouchableOpacity onPress={() => this.changeTaskState(taskDetail.orderId, '7')}>
                         <View style={globalStyles.yellowLargeButton}>
                             <Text style={globalStyles.blackButtonText}>确认</Text>
                         </View>
