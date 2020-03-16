@@ -20,7 +20,7 @@
     "core-js": "^3.6.4",
     "eslint": "^3.14.1",
     "expo": "^36.0.0",
-    "expo-image-picker": "^7.0.0",
+    "expo-image-picker": "~8.0.1",
     "formik": "^2.1.4",
     "metro-core": "^0.58.0",
     "native-base": "^2.13.8",
