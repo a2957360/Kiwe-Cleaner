@@ -106,7 +106,6 @@ class CleanerCheckinform extends Component {
 	};
 
 	render() {
-		console.log(this.props.message)
 		let orderId = this.props.route.params;
 
 		return (

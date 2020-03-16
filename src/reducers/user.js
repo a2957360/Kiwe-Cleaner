@@ -49,7 +49,6 @@ export default (state = INIT_STATE, action) => {
         }
 
         case SUBMIT_APPLICATION_FORM_SUCCESS: {
-            console.log(action.payload.message)
             return {
                 ...state,
                 loading: false,

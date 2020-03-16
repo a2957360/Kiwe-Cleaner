@@ -89,7 +89,7 @@ class MyTaskDetail extends Component {
 
 		let { userId } = this.props.userSignInData;
 
-		if (this.props.taskDetailData === undefined) {
+		if (this.props.loading === true || this.props.taskDetailData === undefined) {
 			return <PageLoading />;
 		} else {
 			taskDetail = this.props.taskDetailData[0];
