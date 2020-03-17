@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import 'react-native-gesture-handler';
+
 import { StyleSheet, Text } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -41,7 +43,7 @@ class KiweApp extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			userLogin: null,
+			isLoggedIn: false
 		};
 	}
 
@@ -53,7 +55,7 @@ class KiweApp extends Component {
 			this.props.userSignInMessage === 'success'
 		) {
 			if (this.props.userSignInData.userState === '1') {
-				this.setState({ userLogin: 1 });
+				this.setState({ isLoggedIn: true });
 			}
 		}
 
@@ -61,7 +63,7 @@ class KiweApp extends Component {
 			prevProps.userSignOutMessage !== this.props.userSignOutMessage &&
 			this.props.userSignOutMessage === 'success'
 		) {
-			this.setState({ userLogin: 0 });
+			this.setState({ isLoggedIn: false });
 		}
 	};
 
@@ -344,11 +346,11 @@ class KiweApp extends Component {
 	render() {
 		console.disableYellowBox = true;
 
-		if (this.state.userLogin === 1) {
-			return <NavigationContainer>{this.homeStack()}</NavigationContainer>;
-		} else {
-			return <NavigationContainer>{this.signInStack()}</NavigationContainer>;
-		}
+		return (
+			<NavigationContainer>
+				{this.state.isLoggedIn ? <>{this.homeStack()}</> : <>{this.signInStack()}</>}
+			</NavigationContainer>
+		);
 	}
 }
 
