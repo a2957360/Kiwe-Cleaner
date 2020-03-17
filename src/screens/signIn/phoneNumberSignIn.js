@@ -33,8 +33,6 @@ class PhoneNumberSignIn extends Component {
 		};
 	}
 
-	componentDidMount = () => {};
-
 	componentDidUpdate = prevProps => {
 		if (prevProps.loading !== this.props.loading && this.props.loading === false) {
 			this.setState({ loadingSpinner: false });

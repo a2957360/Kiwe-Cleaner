@@ -11,12 +11,10 @@ import axios from 'axios';
 
 //发送验证码
 export const getVerificationCodeData = data => {
-    console.log(data)
 	return dispatch => {
 		axios
 			.post(MainDomain + `getVerificationCode.php`, data, { headers: { 'Content-Type': 'application/json' } })
 			.then(res => {
-                console.log(res)
 				dispatch({ type: GET_VERIFICATION_CODE_SUCCESS });
 			});
 	};
