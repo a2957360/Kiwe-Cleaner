@@ -97,6 +97,7 @@ export const createNewTaskData = (data) => {
     };
 }
 
+//上传多张照片
 export const uploadMultipleImagesData = (data) => {
     return dispatch => {
         dispatch({ type: UPDATE_DATA_START, });

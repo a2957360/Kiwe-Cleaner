@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Kiwe - Cleaner",
-    "slug": "react-native-redux-template",
+    "slug": "fine-studio-kiwe-cleaner",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [
@@ -25,6 +25,7 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": ""
   }
 }

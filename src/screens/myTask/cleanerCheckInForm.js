@@ -7,8 +7,8 @@ import {
 	View,
 	TextInput,
 	TouchableOpacity,
-	Image,
-	ScrollView
+	ImageBackground,
+	ScrollView,
 } from 'react-native';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -27,6 +27,8 @@ import * as yup from 'yup';
 import { AntDesign } from '@expo/vector-icons';
 
 import { changeTaskStateData, uploadMultipleImagesData } from '../../actions/task';
+
+import ActionSheet from 'react-native-actionsheet';
 
 class CleanerCheckinform extends Component {
 	constructor(props) {
@@ -57,7 +59,7 @@ class CleanerCheckinform extends Component {
 		let multipleImagesData = new FormData();
 		this.state.filesData.map((item, index) => {
 			multipleImagesData.append('cleanerCheckinPic' + (index + 1), {
-				uri: item.uri,
+				uri: item,
 				type: 'image/jpeg',
 				name: 'userImage',
 			});
@@ -73,36 +75,85 @@ class CleanerCheckinform extends Component {
 		});
 	};
 
-	getPermissionAsync = async () => {
+	getCameraPermissionAsync = async () => {
 		if (Constants.platform.ios) {
-			const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+			const { status } = await Permissions.askAsync(Permissions.CAMERA);
+
 			if (status !== 'granted') {
 				alert('抱歉！此功能需要权限！请在设置中修改！');
 			}
 		}
 	};
 
-	openImagePickerAsync = async () => {
-		let filesData = this.state.filesData;
+	getImageLibraryPermissionAsync = async () => {
+		if (Constants.platform.ios) {
+			const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
-		this.getPermissionAsync();
+			if (status !== 'granted') {
+				alert('抱歉！此功能需要权限！请在设置中修改！');
+			}
+		}
+	};
 
-		let result = await ImagePicker.launchImageLibraryAsync({
+	openCameraAsync = async () => {
+		this.getCameraPermissionAsync();
+
+		let result = await ImagePicker.launchCameraAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.All,
-			allowsEditing: true,
-			aspect: [4, 3],
 			quality: 1,
 		});
 
 		if (!result.cancelled) {
-			let fileData = {
-				uri: result.uri,
-			};
+			let filesData = this.state.filesData;
 
-			filesData.push(fileData);
+			filesData.push(result.uri);
 
 			this.setState({ filesData: filesData });
 		}
+	};
+
+	openImagePickerAsync = async () => {
+		this.getImageLibraryPermissionAsync();
+
+		let result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.All,
+			quality: 1,
+		});
+
+		if (!result.cancelled) {
+			let filesData = this.state.filesData;
+
+			filesData.push(result.uri);
+
+			this.setState({ filesData: filesData });
+		}
+	};
+
+	deleteImage = index => {
+		let filesData = this.state.filesData;
+
+		filesData.splice(index, 1);
+
+		this.setState({ filesData: filesData });
+	};
+
+	handleActionSheet = index => {
+		switch (index) {
+			case 0:
+				this.openCameraAsync();
+				break;
+			case 1:
+				this.openImagePickerAsync();
+				break;
+			default:
+				break;
+		}
+	};
+
+	showActionSheet = () => {
+		this.setState(() => {
+			this.ActionSheet.show();
+		});
 	};
 
 	render() {
@@ -160,13 +211,26 @@ class CleanerCheckinform extends Component {
 											data={this.state.filesData}
 											scrollEnabled={false}
 											keyExtractor={(item, index) => index.toString()}
-											renderItem={({ item }) => (
-												<View style={{ marginRight: 15 }}>
-													<Image
-														style={{ width: 100, height: 100, borderRadius: 5 }}
-														source={{ uri: item.uri }}
-													/>
-												</View>
+											renderItem={({ item, index }) => (
+												<ImageBackground
+													style={{ width: 100, height: 100, marginRight: 15 }}
+													imageStyle={{ borderRadius: 5 }}
+													source={{ uri: item }}
+												>
+													<TouchableOpacity onPress={() => this.deleteImage(index)}>
+														<View
+															style={{
+																width: 20,
+																height: 20,
+																backgroundColor: 'rgba(0,0,0,0.00)',
+																alignSelf: 'flex-end',
+																borderRadius: 5,
+															}}
+														>
+															<AntDesign name="close" color="#000000" size={20} />
+														</View>
+													</TouchableOpacity>
+												</ImageBackground>
 											)}
 										/>
 									</View>
@@ -195,6 +259,16 @@ class CleanerCheckinform extends Component {
 						</View>
 					)}
 				</Formik>
+
+				<ActionSheet
+					ref={o => (this.ActionSheet = o)}
+					title={'请选择'}
+					options={['拍摄', '图片', '取消']}
+					cancelButtonIndex={2}
+					onPress={index => {
+						this.handleActionSheet(index);
+					}}
+				/>
 			</View>
 		);
 	}
