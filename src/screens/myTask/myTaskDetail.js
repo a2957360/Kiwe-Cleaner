@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, RefreshControl, ScrollView } from 'react-native';
 
+import Swiper from 'react-native-swiper';
+
 import { globalStyles } from '../../styles/globalStyles';
 
 import { SimpleLineIcons, Ionicons } from '@expo/vector-icons';
@@ -13,6 +15,8 @@ import { Overlay, CheckBox } from 'react-native-elements';
 import { AntDesign } from '@expo/vector-icons';
 
 import PageLoading from '../../components/pageLoading';
+
+import { MainDomain, screenWidth, screenHeight} from '../../variables/appVariables';
 
 class MyTaskDetail extends Component {
 	constructor(props) {
@@ -78,7 +82,7 @@ class MyTaskDetail extends Component {
 
 	render() {
 		let taskDetail;
-		let backgroundImageSection;
+		let headerSwiperSection;
 		let taskDetailInfoSection;
 		let taskCancelOverlay;
 		let taskConfirmOverlay;
@@ -96,11 +100,19 @@ class MyTaskDetail extends Component {
 
 			this.props.navigation.setOptions({ title: taskDetail.orderStateText });
 
-			backgroundImageSection = (
-				<Image
-					style={{ width: '100%', height: 354 }}
-					source={require('../../../assets/taskDetail/background1.png')}
-				/>
+			headerSwiperSection = (
+				<Swiper
+					activeDotColor="#ffffff"
+					containerStyle={{ width: '100%', height: 0.4 * screenHeight  }}
+					style={styles.wrapper}
+					showsButtons={false}
+				>
+					{taskDetail.orderPic.map(item => (
+						<View>
+							<Image style={{ width: '100%', height: '100%' }} source={{ uri: MainDomain + item }} />
+						</View>
+					))}
+				</Swiper>
 			);
 
 			taskDetailInfoSection = (
@@ -354,7 +366,7 @@ class MyTaskDetail extends Component {
 									/>
 								}
 							>
-								{backgroundImageSection}
+								{headerSwiperSection}
 								{taskDetailInfoSection}
 							</ScrollView >
 
@@ -384,7 +396,7 @@ class MyTaskDetail extends Component {
 									/>
 								}
 							>
-								{backgroundImageSection}
+								{headerSwiperSection}
 								{taskDetailInfoSection}
 							</ScrollView >
 
@@ -414,7 +426,7 @@ class MyTaskDetail extends Component {
 									/>
 								}
 							>
-								{backgroundImageSection}
+								{headerSwiperSection}
 								{taskDetailInfoSection}
 							</ScrollView >
 
@@ -450,7 +462,7 @@ class MyTaskDetail extends Component {
 									/>
 								}
 							>
-								{backgroundImageSection}
+								{headerSwiperSection}
 								{taskDetailInfoSection}
 							</ScrollView >
 						</View>
@@ -470,7 +482,7 @@ class MyTaskDetail extends Component {
 									/>
 								}
 							>
-								{backgroundImageSection}
+								{headerSwiperSection}
 								{taskDetailInfoSection}
 							</ScrollView >
 
@@ -498,7 +510,7 @@ class MyTaskDetail extends Component {
 									/>
 								}
 							>
-								{backgroundImageSection}
+								{headerSwiperSection}
 								{taskDetailInfoSection}
 							</ScrollView >
 						</View>
@@ -518,7 +530,7 @@ class MyTaskDetail extends Component {
 									/>
 								}
 							>
-								{backgroundImageSection}
+								{headerSwiperSection}
 								{taskDetailInfoSection}
 							</ScrollView >
 						</View>
@@ -538,7 +550,7 @@ class MyTaskDetail extends Component {
 									/>
 								}
 							>
-								{backgroundImageSection}
+								{headerSwiperSection}
 								{taskDetailInfoSection}
 							</ScrollView >
 							{taskCommentButton}
@@ -559,7 +571,7 @@ class MyTaskDetail extends Component {
 									/>
 								}
 							>
-								{backgroundImageSection}
+								{headerSwiperSection}
 								{taskDetailInfoSection}
 							</ScrollView >
 						</View>
@@ -579,7 +591,7 @@ class MyTaskDetail extends Component {
 									/>
 								}
 							>
-								{backgroundImageSection}
+								{headerSwiperSection}
 								{taskDetailInfoSection}
 							</ScrollView >
 						</View>
@@ -599,7 +611,7 @@ class MyTaskDetail extends Component {
 									/>
 								}
 							>
-								{backgroundImageSection}
+								{headerSwiperSection}
 								{taskDetailInfoSection}
 							</ScrollView >
 						</View>
