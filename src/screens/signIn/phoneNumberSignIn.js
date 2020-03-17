@@ -62,13 +62,13 @@ class PhoneNumberSignIn extends Component {
 	};
 
 	getVerificationCode = userPhone => {
-		this.countTime();
-		this.setState({ timerStart: true }),
+		this.setState({ timerStart: true },
 			() =>
 				this.props.getVerificationCode({
 					userPhone: userPhone,
 					userRole: '1',
-				});
+				}));
+		this.countTime();
 	};
 
 	onLogin = values => {
