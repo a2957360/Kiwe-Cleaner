@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import 'react-native-gesture-handler';
-
 import { StyleSheet, Text } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
