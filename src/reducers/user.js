@@ -1,11 +1,12 @@
 import {
     FETCH_DATA_START,
     UPDATE_DATA_START,
+    CHANGE_USER_PHONE_SUCCESS,
     GET_USER_INFO_SUCCESS,
     UPLOAD_USER_IMAGE_SUCCESS,
-    SUBMIT_APPLICATION_FORM_SUCCESS,
     GET_USER_ADDRESS_SUCCESS,
-    POST_USER_ADDRESS_SUCCESS
+    POST_USER_ADDRESS_SUCCESS,
+    SUBMIT_USER_INFO_SUCCESS
 } from '../constants/actionTypes';
 
 const INIT_STATE = {
@@ -21,6 +22,7 @@ export default (state = INIT_STATE, action) => {
             return {
                 ...state,
                 loading: true,
+                updating: true,
                 message: null,
                 userUploadImageMessage: null
             };
@@ -48,7 +50,16 @@ export default (state = INIT_STATE, action) => {
             }
         }
 
-        case SUBMIT_APPLICATION_FORM_SUCCESS: {
+        case CHANGE_USER_PHONE_SUCCESS: {
+            return {
+                ...state,
+                loading: false,
+                updating: false,
+                message: action.payload.message,
+            };
+        }
+
+        case SUBMIT_USER_INFO_SUCCESS: {
             return {
                 ...state,
                 loading: false,

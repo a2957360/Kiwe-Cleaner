@@ -17,7 +17,7 @@ import * as yup from 'yup';
 
 import { AntDesign } from '@expo/vector-icons';
 
-import { uploadUserImageData, submitApplicationFormData } from '../../actions/user';
+import { uploadUserImageData, submitUserInfoData } from '../../actions/user';
 
 import ActionSheet from 'react-native-actionsheet';
 
@@ -420,7 +420,7 @@ function mapStateToProps({ signInData, userData, taskData }) {
 function mapDispatchToProps(dispatch) {
 	return {
 		submitApplicationForm: data => {
-			dispatch(submitApplicationFormData(data));
+			dispatch(submitUserInfoData(data));
 		},
 		uploadUserImage: data => {
 			dispatch(uploadUserImageData(data));

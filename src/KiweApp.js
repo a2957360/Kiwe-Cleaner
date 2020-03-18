@@ -28,7 +28,8 @@ import CustomerServiceForm from './screens/myTask/customerServiceForm';
 import MyTaskComment from './screens/myTask/myTaskComment';
 
 import UserCenter from './screens/userCenter/userCenter';
-import UserPhoneNumber from './screens/userCenter/userPhoneNumber';
+import UserPhoneNumberCheck from './screens/userCenter/userPhoneNumberCheck';
+import UserPhoneNumberChange from './screens/userCenter/userPhoneNumberChange';
 import UserAddress from './screens/userCenter/userAddress';
 import UserAddressForm from './screens/userCenter/userAddressForm';
 import MyWallet from './screens/userCenter/myWallet';
@@ -186,10 +187,21 @@ class KiweApp extends Component {
 					}}
 				/>
 				<Stack.Screen
-					name="UserPhoneNumber"
-					component={UserPhoneNumber}
+					name="UserPhoneNumberCheck"
+					component={UserPhoneNumberCheck}
 					options={{
-						title: '我的手机号',
+						title: '',
+						headerBackTitleVisible: false,
+						headerStyle: styles.stackHeader,
+						headerTitleStyle: styles.stackHeaderTitle,
+						headerTintColor: 'black',
+					}}
+				/>
+				<Stack.Screen
+					name="UserPhoneNumberChange"
+					component={UserPhoneNumberChange}
+					options={{
+						title: '',
 						headerBackTitleVisible: false,
 						headerStyle: styles.stackHeader,
 						headerTitleStyle: styles.stackHeaderTitle,

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { StyleSheet, Text, View, TouchableOpacity, Image, Button } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput } from 'react-native';
 
 import { globalStyles } from '../../styles/globalStyles';
 
@@ -13,7 +13,7 @@ import { Entypo } from '@expo/vector-icons';
 
 import { Rating, ListItem } from 'react-native-elements';
 
-import { getUserInfoData, uploadUserImageData } from '../../actions/user';
+import { getUserInfoData, uploadUserImageData, submitUserInfoData } from '../../actions/user';
 
 import { userSignOutData } from '../../actions/signIn';
 
@@ -71,6 +71,13 @@ class UserCenter extends Component {
         }
     }
 
+    submitUserInfo = (userId, userName) => {
+        this.props.submitUserInfo({
+            "userId": userId,
+            "userName": userName
+        })
+    }
+
     render() {
         let userInfo;
 
@@ -91,7 +98,12 @@ class UserCenter extends Component {
                             />
                         </TouchableOpacity>
 
-                        <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 5 }}>{userInfo.userName}</Text>
+                        <TextInput
+                            style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 5 }}
+                            onEndEditing={(event) => this.submitUserInfo(userInfo.userId, event.nativeEvent.text)}
+                        >
+                            {userInfo.userName}
+                        </TextInput>
 
                         <Rating
                             readonly
@@ -177,6 +189,9 @@ function mapDispatchToProps(dispatch) {
         },
         uploadUserImage: (data) => {
             dispatch(uploadUserImageData(data));
+        },
+        submitUserInfo: data => {
+            dispatch(submitUserInfoData(data));
         },
         userSignOut: () => {
             dispatch(userSignOutData());
