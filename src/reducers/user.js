@@ -1,6 +1,5 @@
 import {
     FETCH_DATA_START,
-    UPDATE_DATA_START,
     CHANGE_USER_PHONE_SUCCESS,
     GET_USER_INFO_SUCCESS,
     UPLOAD_USER_IMAGE_SUCCESS,
@@ -25,13 +24,6 @@ export default (state = INIT_STATE, action) => {
                 updating: true,
                 message: null,
                 userUploadImageMessage: null
-            };
-        }
-
-        case UPDATE_DATA_START: {
-            return {
-                ...state,
-                updating: true,
             };
         }
 

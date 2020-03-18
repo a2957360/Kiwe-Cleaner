@@ -1,6 +1,5 @@
 import {
 	FETCH_DATA_START,
-	UPDATE_DATA_START,
 	GET_TASK_TYPE_LIST_SUCCESS,
 	GET_TASK_POOL_SUCCESS,
 	GET_USER_INCOMPLETED_TASK_SUCCESS,
@@ -12,24 +11,19 @@ import {
 } from '../constants/actionTypes';
 
 const INIT_STATE = {
-	loading: false,
-	updating: false,
+    loading: false,
+    updating: false,
+    message: null,
 	createTaskMessage: null,
 };
 
 export default (state = INIT_STATE, action) => {
 	switch (action.type) {
-		case UPDATE_DATA_START: {
-			return {
-				...state,
-				updating: true,
-			};
-		}
-
 		case FETCH_DATA_START: {
 			return {
 				...state,
 				loading: true,
+				updating: true,
 				message: null,
 				createTaskMessage: null,
 			};

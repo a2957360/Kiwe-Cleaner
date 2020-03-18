@@ -81,7 +81,7 @@ class userPhoneNumberCheck extends Component {
         }, 1000);
     }
 
-    render() {
+    render() { 
         let { userPhone } = this.props.userInfoData;
         let loginSuccessOverlay;
         let loginFailOverlay;
@@ -245,7 +245,7 @@ class userPhoneNumberCheck extends Component {
 }
 
 function mapStateToProps({ signInData, userData }) {
-    const { loading, message, userSignInData } = signInData;
+    const { message, loading, userSignInData } = signInData;
     const { userInfoData } = userData;
     return { loading, message, userSignInData, userInfoData };
 }

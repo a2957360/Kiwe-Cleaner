@@ -1,6 +1,5 @@
 import {
     FETCH_DATA_START,
-    UPDATE_DATA_START,
     GET_TASK_TYPE_LIST_SUCCESS,
     GET_TASK_POOL_SUCCESS,
     GET_USER_INCOMPLETED_TASK_SUCCESS,
@@ -76,7 +75,6 @@ export const getTaskDetailData = (data) => {
 export const changeTaskStateData = (data) => {
     return dispatch => {
         dispatch({ type: FETCH_DATA_START });
-        dispatch({ type: UPDATE_DATA_START });
         axios
             .post(MainDomain + 'changeOrderState.php', data, { headers: { 'Content-Type': 'application/json' } })
             .then(res => {
@@ -100,7 +98,7 @@ export const createNewTaskData = (data) => {
 //上传多张照片
 export const uploadMultipleImagesData = (data) => {
     return dispatch => {
-        dispatch({ type: UPDATE_DATA_START, });
+        dispatch({ type: FETCH_DATA_START });
         axios
             .post(MainDomain + `uploadMutiPic.php`, data, { headers: { 'Content-Type': 'application/json' } })
             .then(res => {

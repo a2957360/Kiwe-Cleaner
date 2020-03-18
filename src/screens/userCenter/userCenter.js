@@ -153,7 +153,7 @@ class UserCenter extends Component {
                                     />}
                                 topDivider={true}
                                 bottomDivider={true}
-                                onPress={() => this.props.navigation.navigate('UserPhoneNumber')}
+                                onPress={() => this.props.navigation.navigate('UserPhoneNumberCheck')}
                             />
                         </View>
                     </View>
